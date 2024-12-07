@@ -1,0 +1,42 @@
+:root {
+  --sidebar-z-index: 100;
+  --sidebar-width: 20rem;
+  --sidebar-padding-horizontal: 1rem;
+  --sidebar-element-margin-top: 2rem;
+  --sidebar-border-color: rgb(214, 212, 212);
+}
+
+.sidebar {
+  z-index: var(--sidebar-z-index);
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  padding: 0 var(--sidebar-padding-horizontal);
+  overflow-y: scroll;
+  width: var(--sidebar-width);
+}
+
+.sideBar-element {
+  height: fit-content;
+  margin-top: var(--sidebar-element-margin-top);
+}
+
+/* Styles for larger screens (PCs, Macs, etc.) */
+@media (min-width: 1025px) {
+  .sidebar {
+      border-left: solid thin var(--sidebar-border-color);
+  }
+}
+
+/* Responsive adjustments can be added here if needed */
+@media (max-width: 1024px) {
+  .sidebar {
+      /* Any specific mobile/tablet adjustments */
+    height: fit-content;
+  }
+}
+@media (max-width: 460px) {
+  .sidebar {
+    position: absolute;
+  }
+}

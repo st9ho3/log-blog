@@ -1,0 +1,9 @@
+.trending-writers {
+    display: flex;
+    align-items: center;
+    gap: .7rem;
+    border-bottom: solid thin rgb(213, 215, 216);
+}
+.trending-categories.writers {
+    border: none;
+}

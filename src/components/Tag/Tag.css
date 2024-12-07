@@ -1,0 +1,10 @@
+.tag {
+ width: max-content;
+ height: max-content;
+ padding: .1rem .4rem;
+ border: solid thin rgb(155, 154, 154);
+ border-radius: 25px;
+ font-size: .8rem;
+ margin: .7rem 1rem;
+ cursor: pointer;
+}

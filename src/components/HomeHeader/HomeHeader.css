@@ -1,0 +1,149 @@
+:root {
+    /* Colors */
+    --border-color: rgb(224, 223, 223);
+    --grey-text-color: grey;
+    --subtitle-text-color: rgb(101, 107, 111);
+    --black-text-color: black;
+
+    /* Font Sizes */
+    --title-font-size-desktop: 1.7rem;
+    --subtitle-font-size-desktop: .95rem;
+    --subtitle-font-size-mobile: 1.1rem;
+    --profile-name-font-size-desktop: 0.8rem;
+    --profile-name-font-size-large: 0.95rem;
+    --social-icon-font-size-desktop: 1rem;
+    --social-icon-font-size-mobile: 1.3rem;
+    --date-font-size-desktop: 0.8rem;
+    --date-font-size-mobile: 1.1rem;
+
+    /* Dimensions */
+    --profile-pic-size: 25px;
+}
+
+/* Common Styles */
+.home-header-container {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    border-bottom: solid thin var(--border-color);
+    padding: 0.5rem;
+}
+
+.home-header {
+    margin: 1rem 2rem 1rem 0;
+    flex-grow: 1;
+}
+
+.title {
+    font-size: var(--title-font-size-desktop);
+}
+
+.subtitle {
+    margin: 0.7rem 0;
+    color: var(--subtitle-text-color);
+    font-size: var(--subtitle-font-size-desktop);
+}
+
+.info-container {
+    display: flex;
+    align-items: center;
+}
+
+.profile-info-pic {
+    width: var(--profile-pic-size);
+    height: var(--profile-pic-size);
+}
+
+.by {
+    color: var(--grey-text-color);
+    font-size: 0.8rem;
+    margin-left: 0.5rem;
+}
+
+.profile-name {
+    font-size: var(--profile-name-font-size-desktop);
+    margin-left: 0.2rem;
+    color: var(--black-text-color);
+    text-decoration: none;
+}
+
+.profile-name:hover {
+    text-decoration: underline;
+}
+
+.social-icon {
+    color: var(--grey-text-color);
+    font-size: var(--social-icon-font-size-desktop);
+}
+
+.social-icon.date {
+    font-size: var(--date-font-size-desktop);
+    font-family: "helvetica";
+}
+
+.social-icons {
+    display: flex;
+    align-items: center;
+    margin: 1rem 0;
+    gap: 1.2rem;
+}
+
+.social-container {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.social-number {
+    font-size: 0.8rem;
+    color: var(--grey-text-color);
+}
+
+/* Desktop Breakpoints */
+@media (min-width: 851px) and (max-width: 1500px) {
+    .article-image {
+        width: 190px;
+        height: 140px;
+        margin-right: 1.5rem;
+    }
+}
+
+@media (min-width: 1501px) {
+    .profile-name {
+        font-size: var(--profile-name-font-size-large);
+    }
+
+    .article-image {
+        width: 280px;
+        height: 190px;
+        margin-right: 2.5rem;
+    }
+}
+
+/* Mobile/ Tablet Breakpoint */
+@media (max-width: 850px) {
+    
+    .subtitle {
+        font-size: var(--subtitle-font-size-mobile);
+    }
+
+    .profile-name {
+        font-size: var(--profile-name-font-size-large);
+    }
+
+    .social-icon {
+        font-size: var(--social-icon-font-size-mobile);
+    }
+
+    .social-icon.date {
+        font-size: var(--date-font-size-mobile);
+    }
+
+    .social-number {
+        font-size: var(--date-font-size-mobile);
+    }
+
+    .article-image {
+        display: none;
+    }
+}

@@ -1,0 +1,14 @@
+.trending-title {
+    padding: 0 0 .2rem 0;
+    border-bottom: solid thin rgb(213, 215, 216);
+}
+.trending-categories {
+    padding: 1rem 0 .5rem 0;
+    border-bottom: solid thin rgb(213, 215, 216);
+}
+.articles-number {
+    margin-top: .1rem;
+    color: rgb(101, 107, 111);
+    font-size: .7rem;
+    font-weight: 600;
+}

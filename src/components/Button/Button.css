@@ -1,0 +1,45 @@
+:root {
+    --button-border-color-default: rgb(214, 212, 212);
+    --button-border-color-hover: rgb(193, 191, 191);
+    --button-text-color-hover: rgb(87, 86, 86);
+}
+
+.button {
+    display: none; /* Default state */
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: 0.4s;
+}
+
+.button:hover {
+    color: var(--button-text-color-hover);
+    border-color: var(--button-border-color-hover);
+}
+
+
+/* Tablet and Desktop Breakpoints */
+@media (min-width: 750px) and (max-width: 768px) {
+    .button {
+        display: flex;
+        margin-left: 6rem;
+    }
+}
+
+@media (min-width: 769px) and (max-width: 850px) {
+    .button {
+        display: flex;
+        margin-left: 8rem;
+    }
+}
+
+@media (min-width: 851px) {
+    .button {
+        display: flex;
+        align-items: center;
+        margin-left: 46rem;
+    }
+    .write-icon {
+        margin-right: .4rem;
+    }
+}

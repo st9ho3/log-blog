@@ -1,0 +1,77 @@
+@media (min-width: 1025px) {
+ .searchbar{ 
+       margin-left: 2rem; 
+}}
+.searchbar {
+    display: flex;
+    align-items: center;
+}
+
+.search-input {
+    border-radius: 25px;
+    height: 1.9rem;
+    width: 15rem;
+    border: solid thin black;
+    padding-left: .5rem;
+}
+.search-icon {
+    font-size: 1.3rem;
+    cursor: pointer;
+    position: absolute;
+}
+.circle-button {
+    position: relative;
+    width: 27px;
+    height: 27px;
+    border-radius: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: .2rem;
+}
+
+.circle-button:hover {
+    background-color: rgb(247, 244, 244);
+    transition: .4s;
+}
+
+
+
+/* Styles for tablets (iPads, Android tablets) */
+@media (min-width: 768px) and (max-width: 1024px) {
+    .searchbar{ 
+        margin-left: 4rem; 
+ }
+ .search-input {
+    border-radius: 25px;
+    height: 1.9rem;
+    width: 15rem;
+    border: solid thin black;
+    padding-left: 1rem;
+}
+}
+
+/* Styles for mobile devices (iPhones, Samsung Galaxy, etc.) */
+@media (max-width: 767px) {
+    .searchbar {
+        margin-left: 1rem;
+    }
+    .search-input {
+        border-radius: 25px;
+        height: 1.7rem;
+        width: 10.5rem;
+        border: solid thin black;
+        padding-left: 1rem;
+    }
+}
+
+/* Specific styles for iPhone */
+@media (max-width: 767px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait) {
+    
+}
+/* Specific styles for Samsung Galaxy (or other Android devices) */
+@media (max-width: 767px) and (orientation: portrait) {
+    body {
+        /* Styles for Android phones */
+    }
+}
