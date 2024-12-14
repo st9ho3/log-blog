@@ -5,11 +5,6 @@ import { users } from '../../constants/data';
 import { Button } from '../../constants/components';
 import { BsDot } from "react-icons/bs";
 
-/* 
-// Convert blocks to full HTML
-const newDoc = await editor.blocksToFullHTML(document); 
-console.log(newDoc); 
-*/
 
 const Article = () => {
   const [html, setHtml] = useState('Loading...');
