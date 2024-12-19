@@ -35,7 +35,7 @@ const Article = () => {
       );
       setDoc(selectedDoc[0]?.content[0]?.text || '');
 
-      // Step 3: Convert remaining blocks to HTML.
+      // Step 3: Convert remaining blocks to HTML
       const customBlockToHTML = async (block) => {
         if (block.type === 'image') {
           // Handle image block specifically
