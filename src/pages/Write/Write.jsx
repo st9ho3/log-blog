@@ -43,6 +43,8 @@ const Write = () => {
   }
 console.log(state.isScrolling)
 
+
+
   return (
     <div className="writeEditor-container">
       <BlockNoteView
