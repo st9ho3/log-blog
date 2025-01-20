@@ -1,5 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import { SearchBar, Button } from '../../constants/components';
+import { PublishArticle } from '../../constants/utils';
 import { Link, NavLink, useLocation, useSearchParams } from 'react-router';
 import { LuMenu } from "react-icons/lu";
 import { context } from '../../context/Context'
@@ -36,7 +37,8 @@ const Header = () => {
 
       {<SearchBar />}
      
-      {param === "/write-article" ? <Button text="Publish it" /> : <Button text="Write an article" />}
+      {param !== "/write-article" ? <Button param={param} icon='write' text="Write an article" /> : <Button param={param} action={PublishArticle} text="Publish it" />}
+      
       
       
       { <LuMenu className='menu' onClick={() => dispatch({type: 'TOGGLE_SIDEBAR', payload: !state.isMenuOpen})}/>}

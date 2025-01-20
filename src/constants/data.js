@@ -1,3 +1,4 @@
+
 export const users = [
     {
         id: 1,
@@ -417,7 +418,7 @@ export const users = [
             }
         ]
     },
-    {
+     {
         id: 20,
         name: "Βασίλης Δημητρίου",
         profilePic: "assets/profile2.png",
@@ -438,11 +439,8 @@ export const users = [
                 }
             }
         ]
-    }
+    } 
 ];
-
-
-
 
 export const trendingCategories = [
     {   id:1,

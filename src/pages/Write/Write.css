@@ -270,11 +270,11 @@
   
 /*Article Layout*/
 .writeEditor-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-/*   border: solid thin purple;
- */  margin: 0 2rem 2rem 2rem;
+   display: flex;
+   flex-direction: column;  
+     align-items: center;
+  /* border: solid thin purple; */
+  margin: 0 2rem 2rem 2rem;
   color: rgb(55, 55, 55);
   font-family: "Brygada 1918", "Noto Serif Display" !important;
   
@@ -291,15 +291,16 @@
   margin: .5rem 17rem 0rem 17rem;
   font-family: "Brygada 1918", "Noto Serif Display" !important;
   overflow-wrap: break-word !important;
-/*   border: solid thin red;
- */}
+  min-width: 20rem;
+  /* border: solid thin red; */}
 /*Writeform layout*/
 .bn-container[data-changing-font-demo] .bn-editor {
   margin: .5rem 19rem 0rem 19rem;
   padding: 0;
   font-family: "Brygada 1918", "Noto Serif Display";
-/*   border: solid thin green;
- */}
+  
+  /* width: 100%; */
+  /* border: solid thin green; */}
 .header.fixed + .writeEditor-container{
   margin-top: 4rem !important;
 }
@@ -347,7 +348,5 @@
   height: 26rem !important;
   margin-bottom: var(--margin-bottom);
 }
-.bn-side-menu {
-  
-}
+
 }

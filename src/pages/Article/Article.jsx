@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { loadFromStorage } from '../Write/Write';
+import { loadFromStorage } from '../../constants/utils';
 import { BlockNoteEditor } from '@blocknote/core';
 import { users } from '../../constants/data';
 import { Button } from '../../constants/components';

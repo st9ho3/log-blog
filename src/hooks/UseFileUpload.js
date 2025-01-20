@@ -1,4 +1,8 @@
-import { useContext, useRef } from 'react'; import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage'; import { doc, updateDoc, arrayUnion } from 'firebase/firestore'; import { storage, db } from '../db/Firebase'; import { fileUploadContext } from '../context/FileUploadContext';
+import { useContext, useRef } from 'react'; 
+import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage'; 
+import { doc, updateDoc, arrayUnion } from 'firebase/firestore'; 
+import { storage, db } from '../db/Firebase'; 
+import { fileUploadContext } from '../context/FileUploadContext';
 
 const useFileUpload = (options = {}) => {
     const {

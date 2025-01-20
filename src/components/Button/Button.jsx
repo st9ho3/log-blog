@@ -1,20 +1,18 @@
-import React from 'react'
-import { FaRegPenToSquare } from "react-icons/fa6";
-import { Link } from 'react-router';
+import React from 'react';
+import { FaRegPenToSquare } from 'react-icons/fa6';
+import { FiShare } from 'react-icons/fi';
+import { Link } from 'react-router'; // Import react-router-dom
 
-const Button = ({text, action}) => {
+const Button = ({ text, action, param, icon }) => {
   return (
-    
-    <div onClick={action} className='button'>
-      <Link to='/write-article'>
-      <FaRegPenToSquare className='write-icon' />
-      {text}
+    <div className="button" onClick={param === '/write-article' ? action : undefined}> 
+      <Link to={param !== '/write-article' ? '/write-article' : null}> 
+        {icon === 'write' ? <FaRegPenToSquare className='write-icon' /> : <FiShare className='write-icon' />}
+        <span>{text}</span>
       </Link>
-      
+         
     </div>
-    
-    
-  )
-}
+  );
+};
 
-export default Button
+export default Button;
