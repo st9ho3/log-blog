@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState, useMemo } from 'react';
 import { Link, useSearchParams } from 'react-router';
 import { HomeHeader, SideBar } from '../../constants/components';
 import { context } from '../../context/Context';
-import { getArticles } from '../../constants/utils';
+import { getArticles, getTitles, getSubTitles, getImage } from '../../constants/utils';
 
 const Home = () => {
   const { state } = useContext(context);
@@ -27,22 +27,28 @@ const Home = () => {
 
   const shouldShowSidebar = window.innerWidth < 1025 ? state.isMenuOpen : true;
 
-  const firstContent = articlesToDisplay.map((article) => article.content)
-  console.log(firstContent);
+
+  
+  /* const firstContent = article.content
   const secondContent = firstContent.map((content1) => content1.filter((content2) => content2.type === 'heading' && content2.props.level === 1))
   console.log(secondContent);
   const titles = secondContent.map((content) => content.map((title) => title.content[0].text))
-  const title = titles[0]
-  console.log(title)
+  const title = titles?.[0]?.[0]
+  console.log(title) 
+  console.log(articlesToDisplay) */
+
   return (
     <div className="homepage">
       {!state.isMenuOpen && (
         <div className="home">
           {articlesToDisplay.length > 0 ? (
-            articlesToDisplay.map((article) => (
+            articlesToDisplay.map((article) =>  (
               <HomeHeader
                 key={article.id}
+                title={getTitles(article)}
+                subtitle={getSubTitles(article)}
                 name={article?.author || 'Unknown'}
+                image={getImage(article)}
                 claps={article?.likes || 0}
                 comments={article?.comments?.length || 0}
                 saves={article?.saves || 0}

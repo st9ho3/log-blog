@@ -19,7 +19,7 @@ function HomeHeader({title, subtitle, name, claps, comments, saves, profile, tag
           <Link to={`${name}`} className="profile-name">
             {name}
           </Link>
-          {tag.map((cat) => <Tag text= {cat} />)} 
+          {tag.map((cat) => <Tag key={cat} text= {cat} />)} 
         </div>
 
         {/* Article link */}
