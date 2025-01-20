@@ -85,12 +85,18 @@ export const PublishArticle = async () => {
  * @throws {Error} Throws an error if the document retrieval fails.
  */
 export const getArticle = async (id) => {
-  const docRef = await getDoc(doc(db, "articles", id));
-  if (docRef.exists()) {
-    console.log("Document data:", docRef.data());
-    return docRef.data();
-  } else {
-    console.log("No such document!");
+  try {
+    const docRef = doc(db, "articles", id);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      console.log("Document data:", docSnap.data());
+      return docSnap.data();
+    } else {
+      console.error("No such document!");
+      return null;
+    }
+  } catch (error) {
+    console.error("Error fetching document:", error);
     return null;
   }
 };
@@ -156,14 +162,9 @@ export const getSubTitles = (article) => {
  * @returns {string} The URL of the first image found in the article, or 'No image' if none is found.
  */
 export const getImage = (article) => {
-  console.log(article.content);
   const firstContent = article.content.filter(
     (content) => content.type === 'image'
   );
-  console.log(firstContent);
-  firstContent.length > 0
-    ? console.log(firstContent[0].props.url)
-    : console.log('No image');
   return firstContent.length > 0 ? firstContent[0].props.url : 'No image';
 };
 

@@ -1,79 +1,95 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { loadFromStorage } from '../../constants/utils';
 import { BlockNoteEditor } from '@blocknote/core';
 import { users } from '../../constants/data';
 import { Button } from '../../constants/components';
 import { BsDot } from "react-icons/bs";
+import { getArticle } from '../../constants/utils';
+import { context } from '../../context/Context';
 
 
 const Article = () => {
   const [html, setHtml] = useState('Loading...');
   const [title, setDoc] = useState();
-
+  const {state} = useContext(context);
   /* const locale = locales['en']; */
-
-  const showDoc = async () => {
+  
+  
+  const showDoc = async (id) => {
     try {
-      const document = loadFromStorage();
-      const editor = BlockNoteEditor.create();
-
-      // Step 1: Filter out the first Heading 1 block
+      const content = await getArticle(id);
+      const data = content?.content;
+  
+      if (!data || !Array.isArray(data)) {
+        throw new Error("Invalid document structure.");
+      }
+  
       let firstHeading1Found = false;
-      const filteredDocument = document.filter((block) => {
-        if (block.type === 'heading' && block.props.level === 1) {
+      let firstImageFound = false;
+  
+      // Step 1: Filter the document
+      const filteredDocument = data.filter((block) => {
+        if (block.type === "heading" && block.props.level === 1) {
           if (!firstHeading1Found) {
-            firstHeading1Found = true; // Mark the first Heading 1 as found
-            return false; // Exclude this block
+            firstHeading1Found = true;
+            return false; // Exclude the first heading
           }
         }
+  
+        if (block.type === "image") {
+          if (!firstImageFound) {
+            firstImageFound = true;
+            return false; // Exclude the first image
+          }
+        }
+  
         return true; // Include all other blocks
       });
-
-      // Step 2: Extract and set the first Heading 1 content (if needed)
-      const selectedDoc = document.filter(
-        (d) => d.type === 'heading' && d.props.level === 1
+  
+      // Step 2: Extract and set the first heading for the title
+      const selectedDoc = data.filter(
+        (d) => d.type === "heading" && d.props.level === 1
       );
-      setDoc(selectedDoc[0]?.content[0]?.text || '');
-
-      // Step 3: Convert remaining blocks to HTML
+      setDoc(selectedDoc?.[0]?.content?.[0]?.text || "Untitled");
+  
+      // Step 3: Process blocks into HTML
+      const editor = BlockNoteEditor.create();
       const customBlockToHTML = async (block) => {
-        if (block.type === 'image') {
-          // Handle image block specifically
-          const imageUrl = block.props.url; // Assuming the image URL is stored in block.props.url
+        if (block.type === "image") {
+          const imageUrl = block.props?.url || "";
           return `<div style="display: flex; justify-content: center; align-items: center;">
             <img 
               src="${imageUrl}" 
-              alt="${block.props.alt || ''}" 
+              alt="${block.props?.alt || ""}" 
               style="width: 600px; height: 500px; object-fit: contain;" 
             />
           </div>`;
         }
-
-        // Fallback to default conversion for other block types
         return await editor.blocksToFullHTML([block]);
       };
-
-      // Process the filtered document
+  
+      // Convert the filtered document into HTML
       const newDoc = await Promise.all(
-        filteredDocument.map(async (block) => await customBlockToHTML(block))
-      ).then((blocks) => blocks.join('')); // Join blocks without a separator
-
-      // Update state with the rendered HTML
+        filteredDocument.map((block) => customBlockToHTML(block))
+      ).then((blocks) => blocks.join(""));
       setHtml(newDoc);
     } catch (error) {
-      console.error('Error rendering document:', error);
-      setHtml('Failed to load content.');
+      console.error("Error rendering document:", error);
+      setHtml("Failed to load content.");
     }
   };
 
   useEffect(() => {
-    showDoc();
-  }, []);
+    if (state.article) {
+      showDoc(state.article.id);
+    }
+  }, [state.article.id]);
 
   return (
     <div className="writeEditor-container">
       <div className="article-header">
-        <h1 style={{ fontFamily: 'Helvetica' }}>{title}</h1>
+        <h1 style={{ fontFamily: 'Helvetica', fontSize: '2.2rem' }}>{title}</h1>
+        <h4 style={{ fontFamily: 'Helvetica', color: 'grey', fontWeight: '500', marginTop: '.6rem', fontSize: '1.2rem' }}>{state.article.subtitle}</h4>
         <div
           className="author-details"
           style={{
@@ -85,7 +101,7 @@ const Article = () => {
         >
           <img
             style={{ width: '2.7rem' }}
-            src="/assets/profile1.png"
+            src='/assets/profile1.png'
             alt="profile-picture"
           />
           <div
@@ -112,7 +128,7 @@ const Article = () => {
             marginTop: '3rem',
             marginBottom: '3rem',
           }}
-          src="/assets/photos/tec1.jpeg"
+          src={state.article?.image}
           alt="image"
         />
         <hr style={{ border: 'solid thin grey', opacity: '.2' }} />

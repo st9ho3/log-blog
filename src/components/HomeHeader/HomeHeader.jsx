@@ -1,12 +1,16 @@
-import React from 'react';
+import {React, useContext} from 'react';
 import { Tag } from '../../constants/components';
 import { FaHandsClapping, FaRegBookmark } from 'react-icons/fa6';
 import { FaComment } from 'react-icons/fa';
 import { Link } from 'react-router';
+import { context } from '../../context/Context';
 
-function HomeHeader({title, subtitle, name, claps, comments, saves, profile, tag, image}) {
+function HomeHeader({id, title, subtitle, name, claps, comments, saves, profile, tag, image}) {
+  
+  const {state, dispatch} = useContext(context)
+  
   return (
-    <div className="home-header-container">
+    <div onClick={() => dispatch({type: 'SET_ARTICLE', payload: {id, title, subtitle, name,claps,comments,saves,profile,tag,image} }) } className="home-header-container">
       <div className="home-header">
         <div className="info-container">
           <img

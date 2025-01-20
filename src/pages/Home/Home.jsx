@@ -26,17 +26,7 @@ const Home = () => {
   }, []);
 
   const shouldShowSidebar = window.innerWidth < 1025 ? state.isMenuOpen : true;
-
-
-  
-  /* const firstContent = article.content
-  const secondContent = firstContent.map((content1) => content1.filter((content2) => content2.type === 'heading' && content2.props.level === 1))
-  console.log(secondContent);
-  const titles = secondContent.map((content) => content.map((title) => title.content[0].text))
-  const title = titles?.[0]?.[0]
-  console.log(title) 
-  console.log(articlesToDisplay) */
-
+  console.log(state.article)
   return (
     <div className="homepage">
       {!state.isMenuOpen && (
@@ -45,6 +35,7 @@ const Home = () => {
             articlesToDisplay.map((article) =>  (
               <HomeHeader
                 key={article.id}
+                id={article.id}
                 title={getTitles(article)}
                 subtitle={getSubTitles(article)}
                 name={article?.author || 'Unknown'}
