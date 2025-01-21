@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
+import { useLocation } from 'react-router';
 import { loadFromStorage } from '../../constants/utils';
 import { BlockNoteEditor } from '@blocknote/core';
 import { users } from '../../constants/data';
@@ -13,6 +14,9 @@ const Article = () => {
   const [title, setDoc] = useState();
   const {state} = useContext(context);
   /* const locale = locales['en']; */
+  const location = useLocation(); // Use useLocation directly
+  const param = location.pathname;
+  const articleID = param.trim().split("/")[2]
   
   
   const showDoc = async (id) => {
@@ -81,15 +85,15 @@ const Article = () => {
 
   useEffect(() => {
     if (state.article) {
-      showDoc(state.article.id);
+      showDoc(articleID);
     }
-  }, [state.article.id]);
-
+  }, [articleID]);
+  console.log(state.article.id);
   return (
     <div className="writeEditor-container">
       <div className="article-header">
         <h1 style={{ fontFamily: 'Helvetica', fontSize: '2.2rem' }}>{title}</h1>
-        <h4 style={{ fontFamily: 'Helvetica', color: 'grey', fontWeight: '500', marginTop: '.6rem', fontSize: '1.2rem' }}>{state.article.subtitle}</h4>
+        
         <div
           className="author-details"
           style={{

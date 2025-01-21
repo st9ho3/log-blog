@@ -1,8 +1,14 @@
 import React, { useContext, useEffect, useState, useMemo } from 'react';
 import { Link, useSearchParams } from 'react-router';
+
 import { HomeHeader, SideBar } from '../../constants/components';
 import { context } from '../../context/Context';
-import { getArticles, getTitles, getSubTitles, getImage } from '../../constants/utils';
+import {
+  getArticles,
+  getTitles,
+  getSubTitles,
+  getImage,
+} from '../../constants/utils';
 
 const Home = () => {
   const { state } = useContext(context);
@@ -12,27 +18,26 @@ const Home = () => {
 
   const articlesToDisplay = useMemo(() => {
     if (!filter) return articles;
-    return articles.filter((article) =>
-      article.tags.include(filter)
-    );
+    return articles.filter((article) => article.tags.includes(filter));
   }, [articles, filter]);
 
   useEffect(() => {
     const getArticlesAsync = async () => {
       const articles = await getArticles();
       setArticles(articles);
-    }
+    };
     getArticlesAsync();
   }, []);
 
   const shouldShowSidebar = window.innerWidth < 1025 ? state.isMenuOpen : true;
-  console.log(state.article)
+  console.log(state.article);
+
   return (
     <div className="homepage">
       {!state.isMenuOpen && (
         <div className="home">
           {articlesToDisplay.length > 0 ? (
-            articlesToDisplay.map((article) =>  (
+            articlesToDisplay.map((article) => (
               <HomeHeader
                 key={article.id}
                 id={article.id}
