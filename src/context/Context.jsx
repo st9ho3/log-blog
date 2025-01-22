@@ -9,6 +9,20 @@ export const INITIAL_STATE = {
 }
 export const context = createContext()
 
+/**
+ * Context provider for managing global application state
+ * 
+ * @component
+ * @param {Object} props - Component props
+ * @param {ReactNode} props.children - Child components to be wrapped by the provider
+ * @returns {JSX.Element} - Returns a context provider wrapping the application
+ * 
+ * @example
+ * <ContextProvider>
+ *   <App />
+ * </ContextProvider>
+ */
+
 const ContextProvider = ({children}) => {
     const [state, dispatch] = useReducer(reducer, INITIAL_STATE)
     useEffect(() => {

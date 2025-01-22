@@ -1,9 +1,63 @@
+/* Styles for the TopWriters component */
+.sideBar-element {
+    margin: 0;
+    padding: 0;
+}
+
+.trending-title {
+    padding: 0 0 0.2rem 0;
+    border-bottom: solid thin rgb(213, 215, 216);
+    margin: 0; /* Reset margin to ensure consistent spacing */
+    display: flex;
+    align-items: center;
+    gap: 0.5rem; /* Space between text and icon */
+}
+
 .trending-writers {
     display: flex;
     align-items: center;
-    gap: .7rem;
+    gap: 0.7rem;
     border-bottom: solid thin rgb(213, 215, 216);
+    padding: 0; /* Add padding for spacing */
 }
+
 .trending-categories.writers {
-    border: none;
+    border: none; /* Remove border for writers section */
+}
+
+.profile-info-pic {
+    width: 33px; /* Adjust as needed */
+    height: 33px; /* Adjust as needed */
+    border-radius: 50%; /* Make the image circular */
+    object-fit: cover; /* Ensure the image fits well */
+}
+
+.articles-number {
+    margin-top: 0.1rem;
+    color: rgb(101, 107, 111);
+    font-size: 0.7rem;
+    font-weight: 600;
+}
+
+/* Additional styles for the new semantic elements */
+.sideBar-element aside {
+    margin: 0;
+    padding: 0;
+}
+
+.sideBar-element nav ul {
+    list-style: none; /* Remove default bullet points */
+    margin: 0;
+    padding: 0;
+}
+
+.sideBar-element nav ul li {
+    margin: 0;
+    padding: 0;
+}
+
+.sideBar-element nav ul li a {
+    text-decoration: none; /* Remove underline from links */
+    color: inherit; /* Inherit text color */
+    display: block; /* Ensure the link covers the entire list item */
 }

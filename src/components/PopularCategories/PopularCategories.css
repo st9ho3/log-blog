@@ -1,14 +1,50 @@
+/* Styles for the PopularCategories component */
+.sideBar-element {
+    /* Ensure the container has the same spacing and alignment as before */
+    margin: 1rem 0 2rem 0;
+    padding: 0;
+    
+}
+
 .trending-title {
-    padding: 0 0 .2rem 0;
+    padding: 0 0 0.2rem 0;
     border-bottom: solid thin rgb(213, 215, 216);
+    margin: 0; /* Reset margin to ensure consistent spacing */
 }
+
 .trending-categories {
-    padding: 1rem 0 .5rem 0;
+    padding: 1rem 0 0.5rem 0;
     border-bottom: solid thin rgb(213, 215, 216);
+    margin: 0; /* Reset margin to ensure consistent spacing */
+    
 }
+
 .articles-number {
-    margin-top: .1rem;
+    margin-top: 0.1rem;
     color: rgb(101, 107, 111);
-    font-size: .7rem;
+    font-size: 0.7rem;
     font-weight: 600;
+}
+
+/* Additional styles for the new semantic elements */
+.sideBar-element aside {
+    margin: 0;
+    padding: 0;
+}
+
+.sideBar-element nav ul {
+    list-style: none; /* Remove default bullet points */
+    margin: 0;
+    padding: 0;
+}
+
+.sideBar-element nav ul li {
+    margin: 0;
+    padding: 0;
+}
+
+.sideBar-element nav ul li a {
+    text-decoration: none; /* Remove underline from links */
+    color: inherit; /* Inherit text color */
+    display: block; /* Ensure the link covers the entire list item */
 }

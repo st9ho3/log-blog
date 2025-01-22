@@ -10,6 +10,8 @@ import SideBar from "../components/SideBar/SideBar";
 import TopWriters from "../components/TopWriters/TopWriters";
 import PopularCategories from "../components/PopularCategories/PopularCategories";
 import Write from "../pages/Write/Write";
+import LoginPage from "../pages/Auth/LoginPage";
+import SignupPage from "../pages/Auth/SignupPage";
 
 export {
     Header,
@@ -23,5 +25,8 @@ export {
     SideBar,
     TopWriters,
     PopularCategories,
-    Write
+    Write,
+    LoginPage,
+    SignupPage   
+  
 }

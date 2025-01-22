@@ -75,14 +75,16 @@ const Article = () => {
     <div className="writeEditor-container">
       {/* Article Header Section */}
       <div className="article-header">
-        <h1 style={{ fontFamily: 'Helvetica', fontSize: '2.2rem' }}>{title}</h1>
+        <h1 style={{ fontFamily: 'Helvetica', fontSize: '2.2rem', marginBottom: '2rem' }}>{title}</h1>
+
+        <hr style={{border: '', opacity: '.3', marginTop: '4rem'  }} />
 
         {/* Author Information Card */}
         <div className="author-details" style={{
           display: 'flex',
           gap: '1rem',
           fontFamily: 'Inter',
-          margin: '2rem 0 1.5rem 0',
+          margin: '.5rem 0 .5rem 0',
         }}>
           <img
             style={{ width: '2.7rem' }}
@@ -104,20 +106,19 @@ const Article = () => {
           </div>
         </div>
 
-        <hr style={{ border: 'solid thin grey', opacity: '.3' }} />
+        <hr style={{ border: '', opacity: '.3' }} />
         
         {/* Featured Article Image */}
         <img
           style={{
             width: '39.5rem',
-            marginTop: '3rem',
-            marginBottom: '3rem',
+            marginTop: '2rem',
+            marginBottom: '2rem',
           }}
           src={image}
           alt="article header"
         />
         
-        <hr style={{ border: 'solid thin grey', opacity: '.2' }} />
       </div>
 
       {/* Processed Content Container 

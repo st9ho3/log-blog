@@ -3,11 +3,28 @@ import { BlockNoteEditor } from '@blocknote/core';
 import '@blocknote/core/fonts/inter.css';
 import { BlockNoteView } from '@blocknote/mantine';
 import '@blocknote/mantine/style.css';
-
 import useFileUpload from '../../hooks/UseFileUpload';
 import { context } from '../../context/Context';
 import './Write.css';
 import { loadFromStorage, saveToStorage, getArticle } from '../../constants/utils';
+
+/**
+ * A React component that provides a rich text editor using BlockNote for creating and editing content.
+ * The editor supports file uploads, saves content to local storage, and integrates with a global context.
+ *
+ * @component
+ * @returns {JSX.Element} - The rendered editor component or a loading message.
+ *
+ * @example
+ * <Write />
+ *
+ * @description
+ * This component:
+ * 1. Initializes a BlockNote editor with content loaded from local storage.
+ * 2. Handles file uploads for images.
+ * 3. Saves changes to local storage automatically.
+ * 4. Integrates with a global context for state management.
+ */
 
 const Write = () => {
   const { state, dispatch } = useContext(context);

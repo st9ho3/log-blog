@@ -1,9 +1,19 @@
 import React, { useContext, useEffect } from 'react';
-import { SearchBar, Button } from '../../constants/components';
+import {SearchBar, Button} from '../../constants/components';
 import { PublishArticle } from '../../constants/utils';
 import { NavLink, useLocation, Outlet } from 'react-router'; // Import Outlet
 import { LuMenu } from 'react-icons/lu';
 import { context } from '../../context/Context';
+
+/**
+ * Application header component with navigation, search, and dynamic actions
+ * 
+ * @component
+ * @returns {JSX.Element} - Returns a styled header with navigation and interactive elements
+ * 
+ * @example
+ * <Header />
+ */
 
 const Header = () => {
   const { state, dispatch } = useContext(context);

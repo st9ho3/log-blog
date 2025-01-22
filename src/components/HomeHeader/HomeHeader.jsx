@@ -6,6 +6,39 @@ import { FaComment } from 'react-icons/fa';
 import { Tag } from '../../constants/components';
 import { context } from '../../context/Context';
 
+/**
+ * Article header component for the home page
+ * 
+ * @component
+ * @param {Object} props - Component props
+ * @param {string} props.id - Article ID
+ * @param {string} props.title - Article title
+ * @param {string} props.subtitle - Article subtitle
+ * @param {string} props.name - Author name
+ * @param {number} props.claps - Number of claps
+ * @param {number} props.comments - Number of comments
+ * @param {number} props.saves - Number of saves
+ * @param {string} props.profile - URL of the author's profile picture
+ * @param {string[]} props.tag - Array of tags/categories
+ * @param {string} props.image - URL of the article image
+ * @returns {JSX.Element} - Returns a styled article header with links and metadata
+ * 
+ * @example
+ * <HomeHeader
+ *   id="123"
+ *   title="Sample Article"
+ *   subtitle="This is a sample article"
+ *   name="John Doe"
+ *   claps={42}
+ *   comments={5}
+ *   saves={10}
+ *   profile="/profile.jpg"
+ *   tag={['Tech', 'React']}
+ *   image="/article.jpg"
+ * />
+ */
+
+
 function HomeHeader({
   id,
   title,
