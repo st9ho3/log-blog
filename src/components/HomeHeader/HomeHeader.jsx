@@ -78,7 +78,7 @@ function HomeHeader({
       </div>
 
       {/* Article image link */}
-      <Link to={`${name}/${title}`} className="image-link">
+      <Link to={`${name}/${id}`} className="image-link">
         <img className="article-image" src={image} alt="article image" />
       </Link>
     </div>

@@ -24,7 +24,7 @@ const Header = () => {
   return (
     <div>
       <div className="header">
-        <NavLink className="navlink" to="/" onClick={() => dispatch({ type: 'CLEAN' })}>
+        <NavLink className="navlink" to="/" /*Removed a CLEAN dispatch*/ >
           <h1 style={{ color: 'grey', fontFamily: 'Noto Serif Display' }}>
             Λ<span style={{ color: 'black' }}>og</span>
           </h1>
