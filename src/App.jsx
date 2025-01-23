@@ -2,12 +2,17 @@ import {
   createBrowserRouter, 
   RouterProvider, 
   createRoutesFromElements, 
-  Route 
+  Route, 
+  redirect,
+  Navigate
 } from 'react-router'; // React Router imports for routing
 import { Header, Home, Write, Profile, Article, LoginPage, SignupPage } from './Constants/Components.js'; // Import components
 import { loader as homeLoader } from './pages/Home/Home.jsx'; // Home page loader function
 import { articleLoader } from './constants/articleLoader.js'; // Article page loader function
 import './App.css'; // Global styles
+import { requireAuth } from './constants/utils.js';
+import { useContext } from 'react';
+import { context } from './context/Context.jsx';
 
 
 /**
@@ -22,7 +27,8 @@ import './App.css'; // Global styles
  * URL → Router → Loader → Component
  */
 function App() {
-  const login = false
+  
+  const isLogedIn = false
   // Create the router configuration
   const router = createBrowserRouter(
     createRoutesFromElements(
@@ -39,13 +45,15 @@ function App() {
         {/* Write Article route */}
         <Route 
           path="write-article" 
-          element={<Write />} // Render the Write component
+          element={ <Write /> } // Render the Write component
+          loader={ async () => await requireAuth(isLogedIn) }
         />
         
         {/* Profile route */}
         <Route 
           path=":name" 
           element={<Profile />} // Render the Profile component
+          loader={ async () => await requireAuth(isLogedIn) }
         />
         
         {/* Article route */}
@@ -54,9 +62,9 @@ function App() {
           element={<Article />} // Render the Article component
           loader={articleLoader} // Pre-fetch data for the Article page
         />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/signup" element={<SignupPage />} />
       </Route>
-      <Route path="/login" element={<LoginPage />} />
-      <Route path="/signup" element={<SignupPage />} />
       </>
     )
   );

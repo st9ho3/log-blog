@@ -19,7 +19,6 @@ const Header = () => {
   const { state, dispatch } = useContext(context);
   const location = useLocation(); // Use useLocation directly
   const param = location.pathname;
-  console.log(state.modal)
   useEffect(() => {
     const header = document.querySelector('.header');
     

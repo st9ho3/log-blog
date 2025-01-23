@@ -2,6 +2,7 @@ import { collection, setDoc, doc, getDoc, getDocs } from "firebase/firestore";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 import { db } from "../db/Firebase";
 import { nanoid } from "nanoid";
+import { redirect } from "react-router";
 
 
 
@@ -299,6 +300,9 @@ export const signIn = (email, password) => {
     });
 };
 
-
-
+export const requireAuth = async (isLogedIn) => {
+  if (!isLogedIn) {
+    throw redirect('/login')
+  }
+}
 

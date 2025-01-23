@@ -2,6 +2,7 @@ import React, { createContext, useEffect, useReducer } from 'react'
 import { reducer } from './Reducer'
 
 export const INITIAL_STATE = {
+    
     isMenuOpen: false,
     windowWidth: window.innerWidth,
     isScrolling: false,
