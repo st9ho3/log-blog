@@ -102,8 +102,8 @@
 /* Desktop Breakpoints */
 @media (min-width: 851px) and (max-width: 1500px) {
     .article-image {
-        width: 190px;
-        height: 140px;
+        width: 180px;
+        height: 130px;
         margin-right: 1.5rem;
     }
 }

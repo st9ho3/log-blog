@@ -2,12 +2,44 @@ import {React, useContext, useEffect, useState} from 'react'
 import { IoClose } from "react-icons/io5";
 import { context } from '../../context/Context';
 
-const Modal = () => {
+const Modal = ({initialContent = [
+  "Technology",
+  "Design",
+  "Programming",
+  "Business",
+  "Science",
+  "Health & Wellness",
+  "Education",
+  "Travel",
+  "Lifestyle",
+  "Finance",
+  "Arts & Culture",
+  "Environment",
+  "Politics",
+  "Sports",
+  "Food & Cooking",
+  "Gaming",
+  "Fashion",
+  "Self-Improvement",
+  "History",
+  "Parenting",
+  "Photography",
+  "Music",
+  "Film & TV",
+  "Career Advice",
+  "Relationships",
+  "DIY & Crafts",
+  "Pets",
+  "Spirituality",
+  "Real Estate",
+  "Automotive"
+]}) => {
  
   const {state, dispatch} = useContext(context)
   const [isOpen, setIsOpen] = useState(true);
-  const [tags, setTags] = useState([]);
+  const [tags, setTags] = useState(initialContent);
   const [newTag, setNewTag] = useState("");
+  
 
   const handleAddTag = (e) => {
     if (e.key === "Enter" && newTag.trim()) {
@@ -48,23 +80,19 @@ const Modal = () => {
               {tags.map((tag) => (
                 <span key={tag}
                 onClick={() => dispatch({type:'SET_TAGS', payload: tag})}
-                 className="tag-pill">
+                className={`tag-pill ${state.chosenTags.includes(tag) ? 'selected' : ''}`}>
                   {tag}
-                    <IoClose 
-                    className="tag-remove-btn"
-                    onClick={() => handleRemoveTag(tag)}
-                    aria-label={`Remove ${tag} tag`} />
                 </span>
               ))}
             </div>
-            <input
+             {/* <input
               type="text"
               placeholder="Add tag..."
               className="tags-input"
               value={newTag}
               onChange={(e) => setNewTag(e.target.value)}
               onKeyDown={handleAddTag}
-            />
+            /> */}
           </div>
         </div>
       )}

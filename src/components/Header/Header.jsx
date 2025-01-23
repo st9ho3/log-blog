@@ -32,10 +32,10 @@ const Header = () => {
   }, []);
 
   const chooseTags = () => {
-    setTimeout(() =>  dispatch({type:'SHOW_MODAL'}), 500 )
+    setTimeout(() =>  dispatch({type:'SHOW_MODAL'}), 100 )
   }
-  const publishNclean =  (tags) => {
-     PublishArticle(tags)
+  const publishNclean =  (tags,author) => {
+     PublishArticle(tags, author)
     dispatch({type: 'CLEAN_TAGS'})
   } 
   console.log(state.chosenTags)
@@ -54,13 +54,14 @@ const Header = () => {
         {param !== '/write-article' ? (
           <Button param={param} icon="write" action={chooseTags} text="Write an article" />
         ) : (
-          <Button param={param} action={() => publishNclean(state.chosenTags)} text="Publish it" />
+          <Button param={param} action={() => publishNclean(state.chosenTags, 'Traveler')} text="Publish it" />
         )}
 
         <LuMenu
           className="menu"
           onClick={() => dispatch({ type: 'TOGGLE_SIDEBAR', payload: !state.isMenuOpen })}
         />
+        <img className="profile-info-pic top" alt="profile-pic" />
       </div>
 
       {/* Outlet is crucial for rendering nested routes! */}

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router';
-import { signUp } from '../../constants/utils';
+import { registerUser } from '../../constants/utils';
 
 const SignupPage = () => {
   const [name, setName] = useState('');
@@ -11,8 +11,7 @@ const SignupPage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    signUp(email, password);
-    console.log({ name, email, password, confirmPassword });
+    registerUser(email, password, name);
   };
 
   return (

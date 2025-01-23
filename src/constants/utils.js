@@ -80,13 +80,13 @@ const createArticleObject = (author, content, tags) => {
  * @returns {Promise<void>} A promise that resolves when the article is successfully published and storage is cleared.
  * @throws {Error} Throws an error if the article publishing fails.
  */
-export const PublishArticle = async (tags) => {
+export const PublishArticle = async (tags, author) => {
   const JSONContent = sessionStorage.getItem('editorContent');
   const theContent = JSONContent ? JSON.parse(JSONContent) : undefined;
   console.log('Publishing article:', theContent);
 
   // Create a new article object
-  const newArticle = createArticleObject('Vilma', theContent, tags);
+  const newArticle = createArticleObject(author, theContent, tags);
 
   // Save the article to Firestore
   const docRef = await setDoc(doc(db, "articles", newArticle.id), newArticle);
@@ -212,13 +212,15 @@ export const getImage = (article) => {
  *   console.error('Registration failed:', error.message);
  * }
  */
-export const signUp = (email, password) => {
+
+const signUp = (email, password) => {
   const auth = getAuth();
   return createUserWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       // Signed up 
       const user = userCredential.user;
       console.log('User registered:', user);
+      return user.uid
     })
     .catch((error) => {
       const errorCode = error.code;
@@ -227,6 +229,41 @@ export const signUp = (email, password) => {
       throw error; // Re-throw the error for handling in the calling code
     });
 };
+
+const createAuthorObject = (userid, name) => {
+  const now = new Date()
+
+  const author = {
+    id: userid, // Unique ID for the author
+    name: name, // Author's full name
+    email: "", // Author's email
+    password: "", // Hashed password for security
+    profilePicture: "", // URL to profile picture
+    bio: "", // Short bio
+    articles: [], // Array of article IDs written by the author
+    categories: [], // Categories the author is interested in
+    socialLinks: {
+      twitter: "",
+      linkedin: "",
+      github: "",
+    },
+    createdAt: now.toISOString(), // Timestamp when the author profile was created
+    updatedAt: now.toISOString(), // Timestamp when the author profile was last updated
+  };
+
+  return author
+}
+
+export const registerUser = async (email, password, name) => {
+  const id = await signUp(email, password)
+  console.log(id)
+  const newUser = createAuthorObject(id, name)
+  console.log(newUser)
+
+  // Save the user to Firestore
+const docRef = await setDoc(doc(db, "authors", id), newUser);
+console.log("Document written with ID: ", id);
+}
 
 /**
  * Authenticates a user with the provided email and password using Firebase Authentication.
@@ -252,7 +289,7 @@ export const signIn = (email, password) => {
     .then((userCredential) => {
       // Signed in 
       const user = userCredential.user;
-      console.log('User signed in:', user);
+      console.log('User signed in:', user.uid);
     })
     .catch((error) => {
       const errorCode = error.code;
@@ -261,5 +298,7 @@ export const signIn = (email, password) => {
       throw error; // Re-throw the error for handling in the calling code
     });
 };
+
+
 
 

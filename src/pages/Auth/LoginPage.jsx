@@ -1,6 +1,7 @@
 // LoginPage.jsx
 import React, { useState } from 'react';
 import { Link } from 'react-router';
+import {signIn} from '../../constants/utils'
 
 const LoginPage = () => {
   const [username, setUsername] = useState('');
@@ -9,8 +10,8 @@ const LoginPage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Add your login logic here
-    console.log({ username, password, rememberMe });
+    signIn(username, password)
+   
   };
 
   return (

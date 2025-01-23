@@ -33,8 +33,13 @@ export const reducer = (state,action) => {
                     ...state,
                     chosenTags: [...state.chosenTags, action.payload]
                 };
+            } else {
+                return {
+                    ...state,
+                    chosenTags: state.chosenTags.filter((tag) => tag !== action.payload)
+                }
             }
-            return state; // If the tag already exists, return the state unchanged
+             
         case 'CLEAN_TAGS':
             return {
                 ...state,

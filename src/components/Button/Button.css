@@ -10,6 +10,7 @@
     justify-content: center;
     cursor: pointer;
     transition: 0.4s;
+    min-width: 10.5rem;
 }
 
 .button:hover {
@@ -37,7 +38,7 @@
     .button {
         display: flex;
         align-items: center;
-        margin-left: 45.5rem;
+        margin-left: 41.5rem;
     }
     .write-icon {
         margin-right: .4rem;

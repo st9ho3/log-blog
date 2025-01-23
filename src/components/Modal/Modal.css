@@ -41,7 +41,7 @@
   
   .tags-container {
     display: flex;
-    padding: .3rem;
+    padding: .4rem 0.2rem;
     flex-wrap: wrap;
     gap: 0.7rem;
     align-items: center;
@@ -55,7 +55,19 @@
     padding: 0.5rem 0.6rem;
     font-size: 0.9rem;
     gap: 0.3rem;
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s;
   }
+  
+  .tag-pill.selected {
+    background-color: #000; /* Black background for selected tag */
+    color: #fff; /* White text for contrast */
+  }
+  
+  .tag-pill:hover {
+    background-color: #e5e7eb; /* Light gray on hover */
+  }
+
   .tag-remove-btn {
     display: flex;
     cursor: pointer;

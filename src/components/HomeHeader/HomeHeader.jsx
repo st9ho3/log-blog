@@ -76,7 +76,7 @@ function HomeHeader({
     >
       <div className="home-header">
         <div className="info-container">
-          <img className="profile-info-pic" src={profile} alt="profile-pic" />
+          <img className="profile-info-pic" src={profile} alt="profile-pic" /> 
           <span className="by">by</span>
           {/* Profile link */}
           <Link to={`${name}`} className="profile-name">
