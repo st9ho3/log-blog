@@ -12,6 +12,7 @@ import PopularCategories from "../components/PopularCategories/PopularCategories
 import Write from "../pages/Write/Write";
 import LoginPage from "../pages/Auth/LoginPage";
 import SignupPage from "../pages/Auth/SignupPage";
+import Modal from "../components/Modal/Modal";
 
 export {
     Header,
@@ -27,6 +28,7 @@ export {
     PopularCategories,
     Write,
     LoginPage,
-    SignupPage   
+    SignupPage,
+    Modal   
   
 }

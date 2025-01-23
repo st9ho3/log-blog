@@ -3,6 +3,10 @@ import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } f
 import { db } from "../db/Firebase";
 import { nanoid } from "nanoid";
 
+
+
+
+
 /**
  * @description Utility functions for managing articles and session storage.
  * 
@@ -76,13 +80,13 @@ const createArticleObject = (author, content, tags) => {
  * @returns {Promise<void>} A promise that resolves when the article is successfully published and storage is cleared.
  * @throws {Error} Throws an error if the article publishing fails.
  */
-export const PublishArticle = async () => {
+export const PublishArticle = async (tags) => {
   const JSONContent = sessionStorage.getItem('editorContent');
   const theContent = JSONContent ? JSON.parse(JSONContent) : undefined;
   console.log('Publishing article:', theContent);
 
   // Create a new article object
-  const newArticle = createArticleObject('Vilma', theContent, ['react', 'firebase', 'javascript']);
+  const newArticle = createArticleObject('Vilma', theContent, tags);
 
   // Save the article to Firestore
   const docRef = await setDoc(doc(db, "articles", newArticle.id), newArticle);
@@ -257,3 +261,5 @@ export const signIn = (email, password) => {
       throw error; // Re-throw the error for handling in the calling code
     });
 };
+
+

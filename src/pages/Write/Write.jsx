@@ -6,7 +6,9 @@ import '@blocknote/mantine/style.css';
 import useFileUpload from '../../hooks/UseFileUpload';
 import { context } from '../../context/Context';
 import './Write.css';
-import { loadFromStorage, saveToStorage, getArticle } from '../../constants/utils';
+import { loadFromStorage, saveToStorage } from '../../constants/utils';
+import {Modal} from '../../constants/components'
+
 
 /**
  * A React component that provides a rich text editor using BlockNote for creating and editing content.
@@ -56,6 +58,7 @@ const Write = () => {
 
   return (
     <div className="writeEditor-container">
+      {state.modal ? <Modal /> : null}
       <BlockNoteView
         data-changing-font-demo
         onScroll={() => dispatch({ type: 'SET_SCROLL' })}

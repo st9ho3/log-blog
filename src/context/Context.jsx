@@ -5,7 +5,9 @@ export const INITIAL_STATE = {
     isMenuOpen: false,
     windowWidth: window.innerWidth,
     isScrolling: false,
-    article: {}
+    article: {},
+    modal: false,
+    chosenTags: []
 }
 export const context = createContext()
 

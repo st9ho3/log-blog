@@ -82,7 +82,7 @@ function HomeHeader({
           <Link to={`${name}`} className="profile-name">
             {name}
           </Link>
-          {tag.map((cat) => (
+          {tag.slice(0,2).map((cat) => (
             <Tag key={cat} text={cat} />
           ))}
         </div>

@@ -9,6 +9,7 @@ import { loader as homeLoader } from './pages/Home/Home.jsx'; // Home page loade
 import { articleLoader } from './constants/articleLoader.js'; // Article page loader function
 import './App.css'; // Global styles
 
+
 /**
  * App Component
  * 
@@ -64,7 +65,6 @@ function App() {
   return (
     <>
       <RouterProvider router={router} /> 
-      
       
     </>
   );

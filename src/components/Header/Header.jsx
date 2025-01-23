@@ -19,10 +19,10 @@ const Header = () => {
   const { state, dispatch } = useContext(context);
   const location = useLocation(); // Use useLocation directly
   const param = location.pathname;
-
+  console.log(state.modal)
   useEffect(() => {
     const header = document.querySelector('.header');
-
+    
     const handleScroll = () => {
       header.classList.toggle('fixed', window.scrollY > 0);
     };
@@ -31,10 +31,18 @@ const Header = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const chooseTags = () => {
+    setTimeout(() =>  dispatch({type:'SHOW_MODAL'}), 500 )
+  }
+  const publishNclean =  (tags) => {
+     PublishArticle(tags)
+    dispatch({type: 'CLEAN_TAGS'})
+  } 
+  console.log(state.chosenTags)
   return (
     <div>
       <div className="header">
-        <NavLink className="navlink" to="/" /*Removed a CLEAN dispatch*/ >
+        <NavLink className="navlink" to="/" onClick={() => dispatch({type: 'CLEAN'})} >
           <h1 style={{ color: 'grey', fontFamily: 'Noto Serif Display' }}>
             Λ<span style={{ color: 'black' }}>og</span>
           </h1>
@@ -44,9 +52,9 @@ const Header = () => {
         <SearchBar />
 
         {param !== '/write-article' ? (
-          <Button param={param} icon="write" text="Write an article" />
+          <Button param={param} icon="write" action={chooseTags} text="Write an article" />
         ) : (
-          <Button param={param} action={PublishArticle} text="Publish it" />
+          <Button param={param} action={() => publishNclean(state.chosenTags)} text="Publish it" />
         )}
 
         <LuMenu
