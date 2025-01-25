@@ -28,7 +28,7 @@ import { context } from './context/Context.jsx';
  * URL → Router → Loader → Component
  */
 function App() {
-
+  
   // Create the router configuration
   const router = createBrowserRouter(
     createRoutesFromElements(
@@ -62,7 +62,7 @@ function App() {
           element={<Article />} // Render the Article component
           loader={articleLoader} // Pre-fetch data for the Article page
         />
-        <Route path="/login" 
+         <Route path="/login" 
         element={<LoginPage />}
         loader= {loginLoader}
         action={actionLogin} />

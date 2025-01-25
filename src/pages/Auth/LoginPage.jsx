@@ -4,26 +4,37 @@ import { Link, useLoaderData, useSearchParams, Form, redirect } from 'react-rout
 import {signIn} from '../../constants/utils'
 import { context } from '../../context/Context';
 
-export const  loginLoader = ({request}) => {
-  const url = new URL(request.url).searchParams.get('message') 
-  return url
-}
+// Updated loginLoader (proper redirect handling)
+export const loginLoader = ({ request }) => {
+  const user = localStorage.getItem('authorizedUser');
+  const url = new URL(request.url);
+  const message = url.searchParams.get('message');
+
+  // Redirect logged-in users to home
+  if (user) {
+    throw redirect('/');
+  }
+  
+  return message; // Return message only for non-authenticated users
+};
+
+// Updated actionLogin (proper error redirect)
 export const actionLogin = async ({ request }) => {
   try {
     const formData = await request.formData();
-    const email = await formData.get('username'); // Correct key from input's name
-    const password =  formData.get('password'); 
-    const signedUser = await signIn(email, password); // Pass variables
+    const email = formData.get('username');
+    const password = formData.get('password');
+
+    const signedUser = await signIn(email, password);
     localStorage.setItem('authorizedUser', signedUser);
 
-    // Redirect upon success (example using React Router redirect)
     return redirect('/');
   } catch (error) {
-    console.error('Invalid credentials:', error);
-    // Return error message to display in the UI
-    return { error: "Login failed. Check your credentials." };
+    // Redirect with error message
+    return redirect('/login?message=Invalid credentials');
   }
 };
+
 const LoginPage = () => {
   
   const [rememberMe, setRememberMe] = useState(false);
@@ -39,7 +50,7 @@ const LoginPage = () => {
         />
       </div>
       <div className="right-section">
-        <Form className="auth-form" method='post' >
+        <Form className="auth-form" method='post' replace >
           <h2>Sign In</h2>
           {message && <h4 style={{paddingBottom: '1rem', color: 'red' }}>{message}</h4>}
           <div className="form-group">

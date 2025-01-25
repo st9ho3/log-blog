@@ -302,11 +302,12 @@ export const signIn = async (email, password) => {
 };
 
 export const requireAuth = async () => {
-  const isLogedIn = localStorage.getItem('authorizedUser')
-  if (!isLogedIn) {
-    throw redirect('/login?message=You must login first.')
+  const user = localStorage.getItem('authorizedUser');
+  if (!user) {
+    throw redirect('/login?message=Please login first');
   }
-}
+  return null;
+};
 
 
 
