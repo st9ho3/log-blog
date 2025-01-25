@@ -111,7 +111,6 @@ export const getArticle = async (id) => {
     const docSnap = await getDoc(docRef);
 
     if (docSnap.exists()) {
-      console.log("Document data:", docSnap.data());
       return docSnap.data(); // Return the article data
     } else {
       console.error("No such document!");
@@ -239,7 +238,7 @@ const createAuthorObject = (userid, name) => {
     name: name, // Author's full name
     email: "", // Author's email
     password: "", // Hashed password for security
-    profilePicture: "", // URL to profile picture
+    profilePicture: "assets/profile4.png", // URL to profile picture
     bio: "", // Short bio
     articles: [], // Array of article IDs written by the author
     categories: [], // Categories the author is interested in

@@ -1,6 +1,6 @@
 // LoginPage.jsx
 import React, { useContext, useEffect, useState } from 'react';
-import { Link, useLoaderData, useSearchParams, Form, redirect, useActionData, useNavigation } from 'react-router';
+import { Link, useLoaderData, useSearchParams, Form, redirect, useActionData, useNavigate, useNavigation } from 'react-router';
 import {signIn, getUser} from '../../constants/utils'
 import { context } from '../../context/Context';
 
@@ -30,19 +30,36 @@ export const actionLogin = async ({ request }) => {
     const redirectTo = url.searchParams.get('redirectTo') || '/';
 
     const signedUser = await signIn(email, password);
-    const userObj = await getUser(signedUser)
-    localStorage.setItem('authorizedUser', JSON.stringify(userObj));
+    const userObj = await getUser(signedUser);
     
-    return redirect(redirectTo);
+    // Return user data instead of immediately redirecting
+    return { 
+      user: userObj,
+      redirectTo: redirectTo
+    };
   } catch (error) {
     return redirect(`/login?message=Invalid credentials`);
   }
 };
-
 const LoginPage = () => {
   const [rememberMe, setRememberMe] = useState(false);
-  const {message} = useLoaderData()
+  const { dispatch } = useContext(context);
+  const actionResult = useActionData();
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const { message } = useLoaderData();
   const nav = useNavigation()
+  console.log('loginPage')
+  useEffect(() => {
+    if (actionResult?.user) {
+      // Update localStorage and context
+      localStorage.setItem('authorizedUser', JSON.stringify(actionResult.user));
+      dispatch({ type: 'SET_USER', payload: actionResult.user });
+      
+      // Perform client-side navigation after state update
+      navigate(actionResult.redirectTo || '/', { replace: true });
+    }
+  }, [actionResult, dispatch, navigate]);
 
   return (
     <div className="auth-container">
@@ -57,8 +74,8 @@ const LoginPage = () => {
         <Form className="auth-form" method='post' replace >
           <h2>Sign In</h2>
           {message && <h4 style={{paddingBottom: '1rem', color: 'red' }}>{message}</h4>}
-{/*           {loginFailMessage && <h4 style={{paddingBottom: '1rem', color: 'red' }}>{loginFailMessage}</h4>}
- */}          <div className="form-group">
+          {/* {loginFailMessage && <h4 style={{paddingBottom: '1rem', color: 'red' }}>{loginFailMessage}</h4>} */}
+           <div className="form-group">
             <input
               type="email"
               name="username"

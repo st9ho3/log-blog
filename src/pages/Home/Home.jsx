@@ -53,7 +53,7 @@ const Home = () => {
    * - Toggles sidebar on smaller screens based on state
    */
   const shouldShowSidebar = window.innerWidth < 1025 ? state.isMenuOpen : true;
-
+  console.log('home')
   return (
     <div className="homepage">
       <Suspense fallback={ <h2>Loading...</h2> }>

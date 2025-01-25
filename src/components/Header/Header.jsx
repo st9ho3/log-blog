@@ -37,7 +37,7 @@ const Header = () => {
      PublishArticle(tags, author)
     dispatch({type: 'CLEAN_TAGS'})
   } 
-  
+  console.log('header')
   return (
     <div>
       <div className="header">
@@ -60,7 +60,7 @@ const Header = () => {
           className="menu"
           onClick={() => dispatch({ type: 'TOGGLE_SIDEBAR', payload: !state.isMenuOpen })}
         />
-        <img className="profile-info-pic top" alt="profile-pic" />
+        <img className="profile-info-pic top" src={state.userLogedIn ? state.userLogedIn.profilePicture : null} alt="profile-pic" />
       </div>
 
       {/* Outlet is crucial for rendering nested routes! */}
