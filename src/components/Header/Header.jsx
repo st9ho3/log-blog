@@ -49,13 +49,13 @@ const Header = () => {
 
         {/* These components are likely intended to be outside the header <div> */}
         <SearchBar />
-
+        <button style={{height: '1rem' }} text='Sign out'  onClick={() => localStorage.removeItem('authorizedUser')}/>
         {param !== '/write-article' ? (
           <Button param={param} icon="write" action={chooseTags} text="Write an article" />
         ) : (
           <Button param={param} action={() => publishNclean(state.chosenTags, 'Traveler')} text="Publish it" />
         )}
-
+  
         <LuMenu
           className="menu"
           onClick={() => dispatch({ type: 'TOGGLE_SIDEBAR', payload: !state.isMenuOpen })}

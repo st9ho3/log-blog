@@ -1,21 +1,23 @@
 // LoginPage.jsx
-import React, { useContext, useState } from 'react';
-import { Link, useLoaderData, useSearchParams, Form, redirect } from 'react-router';
-import {signIn} from '../../constants/utils'
+import React, { useContext, useEffect, useState } from 'react';
+import { Link, useLoaderData, useSearchParams, Form, redirect, useActionData, useNavigation } from 'react-router';
+import {signIn, getUser} from '../../constants/utils'
 import { context } from '../../context/Context';
 
 // Updated loginLoader (proper redirect handling)
 export const loginLoader = ({ request }) => {
   const user = localStorage.getItem('authorizedUser');
   const url = new URL(request.url);
-  const message = url.searchParams.get('message');
-
-  // Redirect logged-in users to home
+  
   if (user) {
-    throw redirect('/');
+    const redirectTo = url.searchParams.get('redirectTo') || '/';
+    throw redirect(redirectTo);
   }
   
-  return message; // Return message only for non-authenticated users
+  return {
+    message: url.searchParams.get('message'),
+    redirectTo: url.searchParams.get('redirectTo')
+  };
 };
 
 // Updated actionLogin (proper error redirect)
@@ -24,21 +26,23 @@ export const actionLogin = async ({ request }) => {
     const formData = await request.formData();
     const email = formData.get('username');
     const password = formData.get('password');
+    const url = new URL(request.url);
+    const redirectTo = url.searchParams.get('redirectTo') || '/';
 
     const signedUser = await signIn(email, password);
-    localStorage.setItem('authorizedUser', signedUser);
-
-    return redirect('/');
+    const userObj = await getUser(signedUser)
+    localStorage.setItem('authorizedUser', JSON.stringify(userObj));
+    
+    return redirect(redirectTo);
   } catch (error) {
-    // Redirect with error message
-    return redirect('/login?message=Invalid credentials');
+    return redirect(`/login?message=Invalid credentials`);
   }
 };
 
 const LoginPage = () => {
-  
   const [rememberMe, setRememberMe] = useState(false);
-  const message = useLoaderData()
+  const {message} = useLoaderData()
+  const nav = useNavigation()
 
   return (
     <div className="auth-container">
@@ -53,7 +57,8 @@ const LoginPage = () => {
         <Form className="auth-form" method='post' replace >
           <h2>Sign In</h2>
           {message && <h4 style={{paddingBottom: '1rem', color: 'red' }}>{message}</h4>}
-          <div className="form-group">
+{/*           {loginFailMessage && <h4 style={{paddingBottom: '1rem', color: 'red' }}>{loginFailMessage}</h4>}
+ */}          <div className="form-group">
             <input
               type="email"
               name="username"
@@ -79,7 +84,12 @@ const LoginPage = () => {
               Remember me
             </label>
           </div>
-          <button type="submit" className="auth-button">Sign In</button>
+          <button
+          disabled={nav.state === 'submitting'}
+          style={nav.state === 'submitting' ? {backgroundColor: 'gray'} : null}
+          type="submit" className="auth-button">
+            {nav.state === 'submitting' ? 'Logging in...' : 'Sign in'}
+            </button>
           <div className="auth-link">
             Don't have an account? <Link to="/signup">Sign Up</Link>
           </div>

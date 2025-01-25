@@ -214,7 +214,7 @@ export const getImage = (article) => {
  * }
  */
 
-const signUp = (email, password) => {
+const signUp = async (email, password) => {
   const auth = getAuth();
   return createUserWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
@@ -301,13 +301,30 @@ export const signIn = async (email, password) => {
     });
 };
 
-export const requireAuth = async () => {
+export const requireAuth = async ({ request }) => {
   const user = localStorage.getItem('authorizedUser');
+  const url = new URL(request.url);
+  
   if (!user) {
-    throw redirect('/login?message=Please login first');
+    throw redirect(`/login?message=Please login first&redirectTo=${encodeURIComponent(url.pathname)}`);
   }
   return null;
 };
 
+export const getUser = async (userId) => {
+  try {
+    const docRef = doc(db, "authors", userId);
+    const docSnap = await getDoc(docRef);
 
-
+    if (docSnap.exists()) {
+      console.log("Document data:", docSnap.data());
+      return docSnap.data(); // Return the user data
+    } else {
+      console.error("No such document!");
+      return null; // Return null if the user doesn't exist
+    }
+  } catch (error) {
+    console.error("Error fetching document:", error);
+    return null; // Return null if an error occurs
+  }
+};

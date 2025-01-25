@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { Suspense, useContext } from 'react';
 import { Link } from 'react-router';
 import { FaHandsClapping, FaRegBookmark } from 'react-icons/fa6';
 import { FaComment } from 'react-icons/fa';
@@ -109,11 +109,12 @@ function HomeHeader({
           </div>
         </Link>
       </div>
-
-      {/* Article image link */}
       <Link to={`${name}/${id}`} className="image-link">
         <img className="article-image" src={image} alt="article image" />
       </Link>
+      {/* Article image link */}
+      
+
     </div>
   );
 }

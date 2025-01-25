@@ -1,8 +1,8 @@
-import React, { useContext, useMemo } from 'react';
+import React, { useContext, useMemo, Suspense } from 'react';
 import { Link, useLoaderData, useSearchParams } from 'react-router';
 import { HomeHeader, SideBar } from '../../constants/components';
 import { context } from '../../context/Context';
-import { getArticles, getTitles, getSubTitles, getImage } from '../../constants/utils';
+import { getArticles, getTitles, getSubTitles, getImage, getUser } from '../../constants/utils';
 
 /**
  * React Router loader function for the Home page
@@ -29,7 +29,7 @@ export const loader = () => {
 const Home = () => {
   // Access global state from context (e.g., sidebar visibility)
   const { state } = useContext(context);
-
+  console.log(state.userLogedIn)
   // Access URL search parameters for filtering
   const [searchParams] = useSearchParams();
   const filter = searchParams.get('type'); // Example: /home?type=tech
@@ -56,6 +56,7 @@ const Home = () => {
 
   return (
     <div className="homepage">
+      <Suspense fallback={ <h2>Loading...</h2> }>
       {/* Main Content Area */}
       {!state.isMenuOpen && (
         <div className="home">
@@ -81,7 +82,7 @@ const Home = () => {
           )}
         </div>
       )}
-
+    </Suspense>
       {/* Sidebar Area */}
       {shouldShowSidebar && (
         <div className="sidebar">

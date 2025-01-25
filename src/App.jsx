@@ -46,14 +46,14 @@ function App() {
         <Route 
           path="write-article" 
           element={ <Write /> } // Render the Write component
-          loader={ async () => await requireAuth() }
+          loader={ async ({request}) => await requireAuth({request}) }
         />
         
         {/* Profile route */}
         <Route 
           path=":name" 
           element={<Profile />} // Render the Profile component
-          loader={ async () => await requireAuth() }
+          loader={ async ({request}) => await requireAuth({request}) }
         />
         
         {/* Article route */}
@@ -65,8 +65,12 @@ function App() {
          <Route path="/login" 
         element={<LoginPage />}
         loader= {loginLoader}
-        action={actionLogin} />
-        <Route path="/signup" element={<SignupPage />} />
+        action={actionLogin}
+         />
+        <Route path="/signup"
+         element={<SignupPage />}
+         loader= {loginLoader} />
+
       </Route>
       </>
     )

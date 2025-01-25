@@ -39,7 +39,11 @@ export const reducer = (state,action) => {
                     chosenTags: state.chosenTags.filter((tag) => tag !== action.payload)
                 }
             }
-             
+        case 'SET_USER':
+            return {
+                ...state,
+                userLogedIn: action.payload
+            }     
         case 'CLEAN_TAGS':
             return {
                 ...state,
