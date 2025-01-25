@@ -37,7 +37,7 @@ const Header = () => {
      PublishArticle(tags, author)
     dispatch({type: 'CLEAN_TAGS'})
   } 
-  console.log(state.chosenTags)
+  
   return (
     <div>
       <div className="header">

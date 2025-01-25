@@ -284,13 +284,14 @@ console.log("Document written with ID: ", id);
  *   console.error('Sign-in failed:', error.message);
  * }
  */
-export const signIn = (email, password) => {
+export const signIn = async (email, password) => {
   const auth = getAuth();
   return signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       // Signed in 
       const user = userCredential.user;
       console.log('User signed in:', user.uid);
+      return user.uid
     })
     .catch((error) => {
       const errorCode = error.code;
@@ -300,9 +301,12 @@ export const signIn = (email, password) => {
     });
 };
 
-export const requireAuth = async (isLogedIn) => {
+export const requireAuth = async () => {
+  const isLogedIn = localStorage.getItem('authorizedUser')
   if (!isLogedIn) {
-    throw redirect('/login')
+    throw redirect('/login?message=You must login first.')
   }
 }
+
+
 

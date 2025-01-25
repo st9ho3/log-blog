@@ -1,18 +1,33 @@
 // LoginPage.jsx
-import React, { useState } from 'react';
-import { Link } from 'react-router';
+import React, { useContext, useState } from 'react';
+import { Link, useLoaderData, useSearchParams, Form, redirect } from 'react-router';
 import {signIn} from '../../constants/utils'
+import { context } from '../../context/Context';
 
+export const  loginLoader = ({request}) => {
+  const url = new URL(request.url).searchParams.get('message') 
+  return url
+}
+export const actionLogin = async ({ request }) => {
+  try {
+    const formData = await request.formData();
+    const email = await formData.get('username'); // Correct key from input's name
+    const password =  formData.get('password'); 
+    const signedUser = await signIn(email, password); // Pass variables
+    localStorage.setItem('authorizedUser', signedUser);
+
+    // Redirect upon success (example using React Router redirect)
+    return redirect('/');
+  } catch (error) {
+    console.error('Invalid credentials:', error);
+    // Return error message to display in the UI
+    return { error: "Login failed. Check your credentials." };
+  }
+};
 const LoginPage = () => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  
   const [rememberMe, setRememberMe] = useState(false);
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    signIn(username, password)
-   
-  };
+  const message = useLoaderData()
 
   return (
     <div className="auth-container">
@@ -24,14 +39,13 @@ const LoginPage = () => {
         />
       </div>
       <div className="right-section">
-        <form className="auth-form" onSubmit={handleSubmit}>
+        <Form className="auth-form" method='post' >
           <h2>Sign In</h2>
+          {message && <h4 style={{paddingBottom: '1rem', color: 'red' }}>{message}</h4>}
           <div className="form-group">
             <input
-              type="text"
-              id="username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              type="email"
+              name="username"
               placeholder="Username"
               required
             />
@@ -39,9 +53,7 @@ const LoginPage = () => {
           <div className="form-group">
             <input
               type="password"
-              id="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              name="password"
               placeholder="Password"
               required
             />
@@ -60,7 +72,7 @@ const LoginPage = () => {
           <div className="auth-link">
             Don't have an account? <Link to="/signup">Sign Up</Link>
           </div>
-        </form>
+        </Form>
       </div>
     </div>
   );
