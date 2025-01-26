@@ -1,8 +1,9 @@
 import React, { useContext, useEffect } from 'react';
 import {SearchBar, Button} from '../../constants/components';
 import { PublishArticle } from '../../constants/utils';
-import { NavLink, useLocation, Outlet } from 'react-router'; // Import Outlet
+import { NavLink, useLocation, Outlet, Link } from 'react-router'; // Import Outlet
 import { LuMenu } from 'react-icons/lu';
+import { PiSignIn } from "react-icons/pi";
 import { context } from '../../context/Context';
 
 /**
@@ -19,6 +20,8 @@ const Header = () => {
   const { state, dispatch } = useContext(context);
   const location = useLocation(); // Use useLocation directly
   const param = location.pathname;
+  const author = state.userLogedIn ? state.userLogedIn.name : null
+  
   useEffect(() => {
     const header = document.querySelector('.header');
     
@@ -33,11 +36,11 @@ const Header = () => {
   const chooseTags = () => {
     setTimeout(() =>  dispatch({type:'SHOW_MODAL'}), 100 )
   }
-  const publishNclean =  (tags,author) => {
+  const publishNclean =  (tags, author ) => {
      PublishArticle(tags, author)
     dispatch({type: 'CLEAN_TAGS'})
   } 
-  console.log('header')
+
   return (
     <div>
       <div className="header">
@@ -53,14 +56,14 @@ const Header = () => {
         {param !== '/write-article' ? (
           <Button param={param} icon="write" action={chooseTags} text="Write an article" />
         ) : (
-          <Button param={param} action={() => publishNclean(state.chosenTags, 'Traveler')} text="Publish it" />
+          <Button param={param} action={() => publishNclean(state.chosenTags, author)} text="Publish it" />
         )}
   
         <LuMenu
           className="menu"
           onClick={() => dispatch({ type: 'TOGGLE_SIDEBAR', payload: !state.isMenuOpen })}
         />
-        <img className="profile-info-pic top" src={state.userLogedIn ? state.userLogedIn.profilePicture : null} alt="profile-pic" />
+        {state.userLogedIn ? <img className="profile-info-pic top" src={ state.userLogedIn.profilePicture } alt="profile-pic" /> : <Link to='/login'>login</Link>}
       </div>
 
       {/* Outlet is crucial for rendering nested routes! */}

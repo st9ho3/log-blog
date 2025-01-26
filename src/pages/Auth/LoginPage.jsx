@@ -25,16 +25,17 @@ export const actionLogin = async ({ request }) => {
   try {
     const formData = await request.formData();
     const email = formData.get('username');
-    const password = formData.get('password');
+    const passWord = formData.get('password');
     const url = new URL(request.url);
     const redirectTo = url.searchParams.get('redirectTo') || '/';
 
-    const signedUser = await signIn(email, password);
+    const signedUser = await signIn(email, passWord);
     const userObj = await getUser(signedUser);
-    
+    const {password, createdAt, ... safeUserData} = userObj
+    console.log(safeUserData)
     // Return user data instead of immediately redirecting
     return { 
-      user: userObj,
+      user: safeUserData,
       redirectTo: redirectTo
     };
   } catch (error) {
@@ -50,6 +51,7 @@ const LoginPage = () => {
   const { message } = useLoaderData();
   const nav = useNavigation()
   console.log('loginPage')
+
   useEffect(() => {
     if (actionResult?.user) {
       // Update localStorage and context

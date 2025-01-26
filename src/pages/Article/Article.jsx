@@ -19,8 +19,10 @@ const Article = () => {
   const [html, setHtml] = useState('Loading...');
   
   // Access loader data containing pre-processed article content
-  const { title, filteredContent, image } = useLoaderData();
+  const { title, filteredContent, image, articleID } = useLoaderData();
 
+  
+  
   useEffect(() => {
     /**
      * Content Processing Pipeline
@@ -70,7 +72,7 @@ const Article = () => {
   
     processContent();
   }, [filteredContent]); // Re-process when content changes
-
+  console.log('article')
   return (
     <div className="writeEditor-container">
       {/* Article Header Section */}

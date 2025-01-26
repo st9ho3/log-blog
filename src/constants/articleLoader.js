@@ -70,6 +70,7 @@ export const articleLoader = async ({ params }) => {
   return { 
     title,         // String: Article title
     filteredContent, // Array: Content without first heading/image
-    image          // String: URL of featured image
+    image,          // String: URL of featured image,
+    articleID
   };
 };

@@ -44,6 +44,12 @@ export const reducer = (state,action) => {
                 ...state,
                 userLogedIn: action.payload
             }     
+        case 'SET_AUTHORS': 
+            return {
+                ...state,
+                authors: action.payload
+            }     
+          
         case 'CLEAN_TAGS':
             return {
                 ...state,

@@ -39,7 +39,7 @@ function App() {
         <Route 
           index 
           element={<Home />} 
-          loader={homeLoader} // Pre-fetch data for the Home page
+          loader={ homeLoader} // Pre-fetch data for the Home page
         />
         
         {/* Write Article route */}

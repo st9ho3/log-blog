@@ -140,6 +140,21 @@ export const getArticles = async () => {
 
   return articles;
 };
+export const getAuthors = async () => {
+  const querySnapshot = await getDocs(collection(db, "authors"));
+  const authors = [];
+
+  // Map through the documents and add them to the articles array
+  querySnapshot.forEach((doc) => {
+    authors.push({ id: doc.id, ...doc.data() });
+  });
+
+  return authors;
+};
+/* export const getAuthDetails = async (article, authors) => {
+  const myAuthor = await authors.find((author) => author.name === article.author)
+  console.log(myAuthor)
+} */
 
 /**
  * @description Extracts the main title (h1 heading) from an article's content.
@@ -232,13 +247,15 @@ const signUp = async (email, password) => {
 
 const createAuthorObject = (userid, name) => {
   const now = new Date()
-
+  function getRandom1To4() {
+    return Math.floor(Math.random() * 4) + 1;
+  }
   const author = {
     id: userid, // Unique ID for the author
     name: name, // Author's full name
     email: "", // Author's email
     password: "", // Hashed password for security
-    profilePicture: "assets/profile4.png", // URL to profile picture
+    profilePicture: `assets/profile${getRandom1To4()}.png`, // URL to profile picture
     bio: "", // Short bio
     articles: [], // Array of article IDs written by the author
     categories: [], // Categories the author is interested in
@@ -327,3 +344,4 @@ export const getUser = async (userId) => {
     return null; // Return null if an error occurs
   }
 };
+
