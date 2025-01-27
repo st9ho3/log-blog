@@ -34,19 +34,6 @@ const Modal = ({ type, initialContent = ["Technology",
   "Automotive"] }) => {
   const { state, dispatch } = useContext(context)
   const [tags, setTags] = useState(initialContent);
-  const [newTag, setNewTag] = useState("");
-console.log(state.userLogedIn)
-  // Keep the existing tag functionality
-  const handleAddTag = (e) => {
-    if (e.key === "Enter" && newTag.trim()) {
-      setTags([...tags, newTag.trim()]);
-      setNewTag("");
-    }
-  };
-
-  const handleRemoveTag = (tagToRemove) => {
-    setTags(tags.filter(tag => tag !== tagToRemove));
-  };
 
   useEffect(() => {
     const handleEsc = (e) => {
@@ -107,6 +94,7 @@ console.log(state.userLogedIn)
                       onClick={() => {
                         localStorage.removeItem('authorizedUser');
                         dispatch({ type: 'LOGOUT' });
+                        dispatch({ type: 'CLEAN' })
                       }}
                     >
                       Sign Out

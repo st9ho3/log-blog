@@ -1,10 +1,27 @@
-import React from 'react';
-import { Link } from 'react-router'; // Ensure this is correct for your setup
+import React, { useContext, useEffect, useState } from 'react';
+import { Link } from 'react-router-dom'; // Ensure correct import
 import { BsFeather } from 'react-icons/bs';
-import { users } from '../../constants/data';
+import { context } from '../../context/Context';
 
 const TopWriters = ({ action }) => {
-  const usersToDisplay = users.slice(0, 7);
+  const { state } = useContext(context);
+  const [usersToDisplay, setUsersToDisplay] = useState([]);
+
+  useEffect(() => {
+    console.log('Current state.authors:', state.authors); // Debug log
+    
+    if (state.authors?.length) {
+      const users = state.authors.slice(0, 5);
+      console.log('Users being set:', users); // Debug log
+      setUsersToDisplay(users);
+      setIsLoading(false);
+    }
+  }, [state.authors]);
+
+  if (!usersToDisplay || usersToDisplay.length === 0) {
+    // Render a loading message if no users are available
+    return <div className="loading-message">Loading writers...</div>;
+  }
 
   return (
     <aside className="sideBar-element" aria-label="Top Writers">
@@ -28,7 +45,9 @@ const TopWriters = ({ action }) => {
                   />
                   <div className="trending-categories writers">
                     <h5>{user.name}</h5>
-                    <p className="articles-number">{user.articles.length} άρθρα</p>
+                    <p className="articles-number">
+                      {user.articles?.length || 0} άρθρα
+                    </p>
                   </div>
                 </div>
               </Link>

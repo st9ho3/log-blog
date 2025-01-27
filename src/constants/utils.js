@@ -2,11 +2,7 @@ import { collection, setDoc, doc, getDoc, getDocs } from "firebase/firestore";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 import { db } from "../db/Firebase";
 import { nanoid } from "nanoid";
-import { redirect } from "react-router";
-
-
-
-
+import { data, redirect } from "react-router";
 
 /**
  * @description Utility functions for managing articles and session storage.
@@ -62,7 +58,7 @@ const createArticleObject = (author, content, tags) => {
       time: now.toLocaleTimeString(), // Human-readable time
       updatetime: now.toISOString(), // ISO format for precise timestamps
     },
-    author: {id:author.id, name: author.name, img: author.profilePicture}, // Author's name
+    author: { id: author.id, name: author.name, img: author.profilePicture }, // Author's name
     likes: 0, // Initial likes count
     comments: [], // Initially an empty array for comments
     shares: 0, // Initial shares count
@@ -74,6 +70,84 @@ const createArticleObject = (author, content, tags) => {
   return article;
 };
 
+// Firestore-compatible sanitization function
+const sanitizeForFirestore = (data) => {
+  const sanitizeValue = (value) => {
+    if (Array.isArray(value)) {
+      return value.map(sanitizeValue);
+    }
+    if (value && typeof value === 'object') {
+      return Object.fromEntries(
+        Object.entries(value).map(([k, v]) => [k, sanitizeValue(v)])
+      );
+    }
+    return value;
+  };
+
+  return data.map(block => {
+    if (block.type === 'table') {
+      return {
+        ...block,
+        content: {
+          ...block.content,
+          rows: block.content.rows.map(row => ({
+            cells: row.cells.map(cell => ({
+              cell: cell.map(item => sanitizeValue(item))
+            }))
+          }))
+        }
+      };
+    }
+    return block;
+  });
+};
+
+// Updated desanitizeFromFirestore function
+const desanitizeFromFirestore = (data) => {
+  // Safety check for content array
+  if (!data?.content || !Array.isArray(data.content)) {
+    console.error('Invalid document structure:', data);
+    return data; // Return original data as fallback
+  }
+
+  const restoreNestedArrays = (obj) => {
+    if (Array.isArray(obj)) {
+      return obj.map(restoreNestedArrays);
+    }
+    if (obj && typeof obj === 'object') {
+      // Convert array-like objects to real arrays
+      if (Object.keys(obj).every(key => !isNaN(key))) {
+        return Object.values(obj).map(restoreNestedArrays);
+      }
+      // Recursively process object properties
+      return Object.fromEntries(
+        Object.entries(obj).map(([key, value]) => [key, restoreNestedArrays(value)])
+      );
+    }
+    return obj;
+  };
+
+  // Process the content array specifically
+  return {
+    ...data,
+    content: data.content.map(block => {
+      if (block?.type === 'table') {
+        return {
+          ...block,
+          content: {
+            ...block.content,
+            rows: block.content?.rows?.map(row => ({
+              cells: (row.cells || []).map(cell =>
+                restoreNestedArrays(cell?.cell || [])
+              )
+            })) || []
+          }
+        };
+      }
+      return block;
+    })
+  };
+};
 /**
  * @description Publishes an article to Firestore.
  * @async
@@ -84,16 +158,21 @@ const createArticleObject = (author, content, tags) => {
 export const PublishArticle = async (tags, author) => {
   const JSONContent = sessionStorage.getItem('editorContent');
   const theContent = JSONContent ? JSON.parse(JSONContent) : undefined;
-  console.log('Publishing article:', theContent);
 
-  // Create a new article object
-  const newArticle = createArticleObject(author, theContent, tags);
+  // 1. Create deep copy of content
+  const contentToSanitize = JSON.parse(JSON.stringify(theContent));
 
-  // Save the article to Firestore
+  // 2. Sanitize nested arrays for Firestore
+  const sanitizedContent = sanitizeForFirestore(contentToSanitize);
+
+  // 3. Create article with sanitized content
+  const newArticle = createArticleObject(author, sanitizedContent, tags);
+
+  // 4. Save to Firestore
   const docRef = await setDoc(doc(db, "articles", newArticle.id), newArticle);
   console.log("Document written with ID: ", newArticle.id);
 
-  // Clear session storage after publishing
+  // 5. Clear storage
   clearStorage();
 };
 
@@ -110,15 +189,26 @@ export const getArticle = async (id) => {
     const docRef = doc(db, "articles", id);
     const docSnap = await getDoc(docRef);
 
-    if (docSnap.exists()) {
-      return docSnap.data(); // Return the article data
-    } else {
-      console.error("No such document!");
-      return null; // Return null if the document doesn't exist
+    if (!docSnap.exists()) {
+      console.log("No document found with ID:", id);
+      return null;
     }
+
+    // Get raw data and desanitize
+    const rawData = docSnap.data();
+    const desanitizedData = desanitizeFromFirestore(rawData);
+
+    // Return the processed data with document ID
+    return {
+      id: docSnap.id,
+      ...desanitizedData,
+      createdAt: rawData.createdAt?.toDate?.(), // Safe conversion
+      updatedAt: rawData.updatedAt?.toDate?.()
+    };
+
   } catch (error) {
     console.error("Error fetching document:", error);
-    return null; // Return null if an error occurs
+    throw new Error("Failed to retrieve article. Please try again later.");
   }
 };
 
@@ -140,21 +230,25 @@ export const getArticles = async () => {
 
   return articles;
 };
+
+/**
+ * @description Retrieves all authors from Firestore.
+ * @async
+ * @function getAuthors
+ * @returns {Promise<object[]>} A promise that resolves to an array of author data objects.
+ * @throws {Error} Throws an error if the document retrieval fails.
+ */
 export const getAuthors = async () => {
   const querySnapshot = await getDocs(collection(db, "authors"));
   const authors = [];
 
-  // Map through the documents and add them to the articles array
+  // Map through the documents and add them to the authors array
   querySnapshot.forEach((doc) => {
     authors.push({ id: doc.id, ...doc.data() });
   });
 
   return authors;
 };
-/* export const getAuthDetails = async (article, authors) => {
-  const myAuthor = await authors.find((author) => author.name === article.author)
-  console.log(myAuthor)
-} */
 
 /**
  * @description Extracts the main title (h1 heading) from an article's content.
@@ -352,3 +446,20 @@ export const getUser = async (userId) => {
   }
 };
 
+export const trending = async() => {
+  const articles = await getArticles();
+  const tags = []
+  articles.forEach((article) => { 
+     article.tags.forEach((tag) => {
+      tags.push(tag)
+     })
+  })
+  const tagsCount = tags.reduce((accumulator, currentValue) => {
+    accumulator[currentValue] = (accumulator[currentValue] || 0) + 1;
+    return accumulator;
+  }, {}); // Initial value is an empty object
+  console.log(tagsCount)
+  const sortedTags = Object.entries(tagsCount).sort((a, b) => b[1] - a[1]);
+  console.log(sortedTags)
+  return sortedTags
+}
