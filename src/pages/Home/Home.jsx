@@ -45,7 +45,7 @@ const Home = () => {
     
     return articles.map(article => {
       const authorProfile = authors.find(author => 
-        author.name?.toLowerCase() === article.author?.toLowerCase()
+        author.name?.toLowerCase() === article.author?.name?.toLowerCase()
       ) || { 
         name: 'Unknown Author',
         avatar: '/default-avatar.png' 
@@ -96,13 +96,13 @@ const Home = () => {
                 id={article.id} // Article ID for navigation
                 title={article?.title} // Processed title
                 subtitle={article?.subtitle} // Processed subtitle
-                name={article?.author || 'Unknown'} // Author name with fallback
+                name={article.author?.name || 'Unknown'} // Author name with fallback
                 image={article?.image} // Processed image URL
                 claps={article?.likes || 0} // Likes count with fallback
                 comments={article?.comments?.length || 0} // Comments count with fallback
                 saves={article?.saves || 0} // Saves count with fallback
                 tag={article.tags || []} // Tags array with fallback
-                profile={article?.profile}
+                profile={article.author?.img}
               />
             ))
           ) : (

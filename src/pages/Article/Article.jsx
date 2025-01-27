@@ -19,7 +19,7 @@ const Article = () => {
   const [html, setHtml] = useState('Loading...');
   
   // Access loader data containing pre-processed article content
-  const { title, filteredContent, image, articleID } = useLoaderData();
+  const { title, filteredContent, image, author } = useLoaderData();
 
   
   
@@ -72,7 +72,7 @@ const Article = () => {
   
     processContent();
   }, [filteredContent]); // Re-process when content changes
-  console.log('article')
+console.log(author.img)
   return (
     <div className="writeEditor-container">
       {/* Article Header Section */}
@@ -90,13 +90,13 @@ const Article = () => {
         }}>
           <img
             style={{ width: '2.7rem' }}
-            src='/assets/profile1.png'
+            src={author?.img}
             alt="profile-picture"
           />
           <div style={{ display: 'flex', flexDirection: 'column', color: "rgb(55,55,55)" }}>
             <div style={{ display: 'flex', alignItems: 'center' }}>
               <div style={{ fontFamily: 'Inter, HELVETICA', fontSize: ".9rem" }}>
-                Ταπεινό Χαμομηλάκι
+                {author?.name}
               </div>
               <BsDot />
               <p>follow</p>

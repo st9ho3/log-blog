@@ -62,7 +62,7 @@ const createArticleObject = (author, content, tags) => {
       time: now.toLocaleTimeString(), // Human-readable time
       updatetime: now.toISOString(), // ISO format for precise timestamps
     },
-    author: author,
+    author: {id:author.id, name: author.name, img: author.profilePicture}, // Author's name
     likes: 0, // Initial likes count
     comments: [], // Initially an empty array for comments
     shares: 0, // Initial shares count
@@ -246,16 +246,23 @@ const signUp = async (email, password) => {
 };
 
 const createAuthorObject = (userid, name) => {
+  const possibleNames = [
+    "https://firebasestorage.googleapis.com/v0/b/the-notes-app-cfe0c.appspot.com/o/images%2F1737994837627profile2.png?alt=media&token=b95062e9-5880-404f-a66e-c257898bb36e",
+    "https://firebasestorage.googleapis.com/v0/b/the-notes-app-cfe0c.appspot.com/o/images%2F1737994768589profile1.png?alt=media&token=00e935ed-e88e-4e6c-8d85-643c069407a4",
+    "https://firebasestorage.googleapis.com/v0/b/the-notes-app-cfe0c.appspot.com/o/images%2F1737995076503profile3.png?alt=media&token=71ae0765-afd6-470b-bf4e-b712deb294c1",
+    "https://firebasestorage.googleapis.com/v0/b/the-notes-app-cfe0c.appspot.com/o/images%2F1737995091638profile4.png?alt=media&token=72d06828-601e-45ad-bf19-d678ee5eca3b"
+  ];
   const now = new Date()
-  function getRandom1To4() {
-    return Math.floor(Math.random() * 4) + 1;
+  function getRandom0To3() {
+    return Math.floor(Math.random() * 4);
   }
+  const randomIndex = getRandom0To3()
   const author = {
     id: userid, // Unique ID for the author
     name: name, // Author's full name
     email: "", // Author's email
     password: "", // Hashed password for security
-    profilePicture: `assets/profile${getRandom1To4()}.png`, // URL to profile picture
+    profilePicture: possibleNames[randomIndex], // URL to profile picture
     bio: "", // Short bio
     articles: [], // Array of article IDs written by the author
     categories: [], // Categories the author is interested in

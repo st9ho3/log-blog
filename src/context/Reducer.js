@@ -25,7 +25,12 @@ export const reducer = (state,action) => {
         case 'SHOW_MODAL':
             return {
                 ...state,
-                modal: true
+                modal: {open: true, type: action.payload}
+            }
+        case 'CLOSE_MODAL':
+            return {
+                ...state,
+                modal: {open: false, type: ''}
             }
         case 'SET_TAGS':
             if (!state.chosenTags.includes(action.payload)) {
@@ -43,6 +48,11 @@ export const reducer = (state,action) => {
             return {
                 ...state,
                 userLogedIn: action.payload
+            }
+        case 'LOGOUT':
+            return {
+                ...state,
+                userLogedIn: null
             }     
         case 'SET_AUTHORS': 
             return {
@@ -58,7 +68,7 @@ export const reducer = (state,action) => {
         case 'CLEAN':
             return {
                 ...state,
-                modal:false,
+                modal:{open: false, type: ''},
                 isMenuOpen:false,
                 isScrolling:false
             }

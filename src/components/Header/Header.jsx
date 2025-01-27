@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react';
-import {SearchBar, Button} from '../../constants/components';
+import {SearchBar, Button, Modal} from '../../constants/components';
 import { PublishArticle } from '../../constants/utils';
 import { NavLink, useLocation, Outlet, Link } from 'react-router'; // Import Outlet
 import { LuMenu } from 'react-icons/lu';
@@ -20,7 +20,7 @@ const Header = () => {
   const { state, dispatch } = useContext(context);
   const location = useLocation(); // Use useLocation directly
   const param = location.pathname;
-  const author = state.userLogedIn ? state.userLogedIn.name : null
+  const author = state.userLogedIn ? state.userLogedIn : null
   
   useEffect(() => {
     const header = document.querySelector('.header');
@@ -34,13 +34,14 @@ const Header = () => {
   }, []);
 
   const chooseTags = () => {
-    setTimeout(() =>  dispatch({type:'SHOW_MODAL'}), 100 )
+    setTimeout(() =>  dispatch({type:'SHOW_MODAL', payload: 'tags'}), 100 )
   }
   const publishNclean =  (tags, author ) => {
+    console.log(author)
      PublishArticle(tags, author)
     dispatch({type: 'CLEAN_TAGS'})
   } 
-
+console.log(state.modal)
   return (
     <div>
       <div className="header">
@@ -52,7 +53,7 @@ const Header = () => {
 
         {/* These components are likely intended to be outside the header <div> */}
         <SearchBar />
-        <button style={{height: '1rem' }} text='Sign out'  onClick={() => localStorage.removeItem('authorizedUser')}/>
+        
         {param !== '/write-article' ? (
           <Button param={param} icon="write" action={chooseTags} text="Write an article" />
         ) : (
@@ -63,8 +64,15 @@ const Header = () => {
           className="menu"
           onClick={() => dispatch({ type: 'TOGGLE_SIDEBAR', payload: !state.isMenuOpen })}
         />
-        {state.userLogedIn ? <img className="profile-info-pic top" src={ state.userLogedIn.profilePicture } alt="profile-pic" /> : <Link to='/login'>login</Link>}
+        {state.userLogedIn ?
+         <img
+         onClick={() =>  dispatch({type:'SHOW_MODAL', payload: 'profile'})} 
+         className="profile-info-pic top" 
+         src={ state.userLogedIn.profilePicture } 
+         alt="profile-pic"
+          /> : <Link to='/login'>login</Link>}
       </div>
+      {state.modal.open && <Modal type={state.modal.type} />}
 
       {/* Outlet is crucial for rendering nested routes! */}
       <Outlet />

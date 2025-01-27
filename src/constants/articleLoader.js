@@ -20,7 +20,8 @@ export const articleLoader = async ({ params }) => {
   // getArticle returns { content: [...] } where content is an array of block objects
   const content = await getArticle(articleID);
   const data = content?.content; // Array of content blocks
-
+  const author = content?.author; // Object: Author 
+  console.log(author)
   // Validate data structure
   if (!data || !Array.isArray(data)) {
     throw new Error("Invalid document structure. Expected array of content blocks.");
@@ -71,6 +72,6 @@ export const articleLoader = async ({ params }) => {
     title,         // String: Article title
     filteredContent, // Array: Content without first heading/image
     image,          // String: URL of featured image,
-    articleID
+    author
   };
 };

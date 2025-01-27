@@ -58,7 +58,7 @@ const Write = () => {
 
   return (
     <div className="writeEditor-container">
-      {state.modal ? <Modal /> : null}
+      
       <BlockNoteView
         data-changing-font-demo
         onScroll={() => dispatch({ type: 'SET_SCROLL' })}

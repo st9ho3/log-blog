@@ -1,9 +1,8 @@
-import {React, useContext, useEffect, useState} from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { IoClose } from "react-icons/io5";
 import { context } from '../../context/Context';
 
-const Modal = ({initialContent = [
-  "Technology",
+const Modal = ({ type, initialContent = ["Technology",
   "Design",
   "Programming",
   "Business",
@@ -32,72 +31,97 @@ const Modal = ({initialContent = [
   "Pets",
   "Spirituality",
   "Real Estate",
-  "Automotive"
-]}) => {
- 
-  const {state, dispatch} = useContext(context)
-  const [isOpen, setIsOpen] = useState(true);
+  "Automotive"] }) => {
+  const { state, dispatch } = useContext(context)
   const [tags, setTags] = useState(initialContent);
   const [newTag, setNewTag] = useState("");
-  
-
+console.log(state.userLogedIn)
+  // Keep the existing tag functionality
   const handleAddTag = (e) => {
     if (e.key === "Enter" && newTag.trim()) {
       setTags([...tags, newTag.trim()]);
       setNewTag("");
     }
   };
-  
+
   const handleRemoveTag = (tagToRemove) => {
     setTags(tags.filter(tag => tag !== tagToRemove));
   };
 
   useEffect(() => {
     const handleEsc = (e) => {
-      if (e.key === "Escape") setIsOpen(false);
+      if (e.key === "Escape") {
+        dispatch({type: 'CLOSE_MODAL'})
+      };
     };
 
-    if (isOpen) {
+    if (state.modal.open) {
       window.addEventListener("keydown", handleEsc);
     }
     return () => window.removeEventListener("keydown", handleEsc);
-  }, [isOpen])
-  return (
-    <div className='ModalBackground'>
+  }, [state.modal.open])
 
-      {state.modal && isOpen && (
-        <div className="tags-modal-overlay" onClick={() => setIsOpen(false)}>
-          <div className="tags-modal-content" onClick={(e) => e.stopPropagation()}>
+  return (
+    <>
+    
+      {state.modal.open && state.userLogedIn && (
+      <div className={`ModalBackground-${type}`}>
+        <div className={`${type}-modal-overlay`} onClick={() => dispatch({type: 'CLOSE_MODAL'})}>
+          <div className={`tags-modal-content`} onClick={(e) => e.stopPropagation()}>
             <IoClose 
               className="tags-modal-close-btn"
-              onClick={() => dispatch({type: 'CLEAN'})}
+              onClick={() => dispatch({ type: 'CLEAN' })}
               aria-label="Close modal"
             />
-            <h3 className="tags-modal-title">Choose category
-            </h3>
             
-            <div className="tags-container">
-              {tags.map((tag) => (
-                <span key={tag}
-                onClick={() => dispatch({type:'SET_TAGS', payload: tag})}
-                className={`tag-pill ${state.chosenTags.includes(tag) ? 'selected' : ''}`}>
-                  {tag}
-                </span>
-              ))}
-            </div>
-             {/* <input
-              type="text"
-              placeholder="Add tag..."
-              className="tags-input"
-              value={newTag}
-              onChange={(e) => setNewTag(e.target.value)}
-              onKeyDown={handleAddTag}
-            /> */}
+            {type === 'tags' ? (
+              <>
+                <h3 className="tags-modal-title">Choose category</h3>
+                <div className="tags-container">
+                  {tags.map((tag) => (
+                    <span 
+                      key={tag}
+                      onClick={() => dispatch({ type: 'SET_TAGS', payload: tag })}
+                      className={`tag-pill ${state.chosenTags.includes(tag) ? 'selected' : ''}`}
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              </>
+            ) : type === 'profile' ? (
+              <div className="profile-modal-content">
+                {state.userLogedIn && (
+                  <>
+                    <img 
+                      src={state.userLogedIn.profilePicture} 
+                      alt="Profile" 
+                      className="profile-modal-image"
+                    />
+                    <h2 className="profile-modal-name">
+                      {state.userLogedIn.name || 'User Name'}
+                    </h2>
+                    
+                    <button 
+                      className="profile-logout-btn"
+                      onClick={() => {
+                        localStorage.removeItem('authorizedUser');
+                        dispatch({ type: 'LOGOUT' });
+                      }}
+                    >
+                      Sign Out
+                    </button>
+                  </>
+                )}
+              </div>
+            ) : null}
           </div>
         </div>
+        </div>
       )}
-    </div>
+      </>
+    
   )
 }
 
-export default Modal
+export default Modal;

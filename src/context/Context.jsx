@@ -9,7 +9,7 @@ export const INITIAL_STATE = {
     windowWidth: window.innerWidth,
     isScrolling: false,
     article: {},
-    modal: false,
+    modal: {open: false, type: ''},
     chosenTags: [],
     authors: []
     
