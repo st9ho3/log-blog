@@ -1,4 +1,4 @@
-import { collection, setDoc, doc, getDoc, getDocs } from "firebase/firestore";
+import { collection, setDoc, doc, getDoc, getDocs, updateDoc, arrayUnion, arrayRemove } from "firebase/firestore";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 import { db } from "../db/Firebase";
 import { nanoid } from "nanoid";
@@ -155,7 +155,7 @@ const desanitizeFromFirestore = (data) => {
  * @returns {Promise<void>} A promise that resolves when the article is successfully published and storage is cleared.
  * @throws {Error} Throws an error if the article publishing fails.
  */
-export const PublishArticle = async (tags, author) => {
+export const PublishArticle = async (tags, author, authors) => {
   const JSONContent = sessionStorage.getItem('editorContent');
   const theContent = JSONContent ? JSON.parse(JSONContent) : undefined;
 
@@ -172,6 +172,7 @@ export const PublishArticle = async (tags, author) => {
   const docRef = await setDoc(doc(db, "articles", newArticle.id), newArticle);
   console.log("Document written with ID: ", newArticle.id);
 
+  updateAuthors(authors, author, newArticle.id)
   // 5. Clear storage
   clearStorage();
 };
@@ -458,8 +459,15 @@ export const trending = async() => {
     accumulator[currentValue] = (accumulator[currentValue] || 0) + 1;
     return accumulator;
   }, {}); // Initial value is an empty object
-  console.log(tagsCount)
   const sortedTags = Object.entries(tagsCount).sort((a, b) => b[1] - a[1]);
-  console.log(sortedTags)
   return sortedTags
+}
+
+export const updateAuthors = async (authors, user, update) => {
+  const author = authors.find((author) => author.id === user.id);
+  const authorRef = doc(db, "authors", author.id);
+  await updateDoc(authorRef, {
+    articles: arrayUnion(update)
+  });
+  
 }

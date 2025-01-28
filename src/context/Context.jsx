@@ -29,9 +29,9 @@ export const context = createContext()
  *   <App />
  * </ContextProvider>
  */
-
 const ContextProvider = ({children}) => {
     const [state, dispatch] = useReducer(reducer, INITIAL_STATE)
+
     useEffect(() => {
        // Initialize user from localStorage on mount
       const checkAuth = () => {
@@ -48,8 +48,18 @@ const ContextProvider = ({children}) => {
       
       // Check auth on initial load
       checkAuth();
-      const authors = getAuthors()
-      dispatch({type: 'SET_AUTHORS', payload: authors})
+      
+      // Fetch authors correctly
+  const fetchAuthors = async () => {
+    try {
+      const authors = await getAuthors(); // Wait for the data
+      dispatch({ type: 'SET_AUTHORS', payload: authors });
+    } catch (error) {
+      console.error('Error fetching authors:', error);
+    }
+  };
+  fetchAuthors(); // Call the async function
+
       // Update the window width on resize
       const handleResize = () => dispatch({type: 'SET_WINDOW_WIDTH', payload: window.innerWidth});
     

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo, useContext, useRef } from 'react';
+import React, { useEffect, useState, useMemo, useContext, useCallback } from 'react';
 import { BlockNoteEditor } from '@blocknote/core';
 import '@blocknote/core/fonts/inter.css';
 import { BlockNoteView } from '@blocknote/mantine';
@@ -52,6 +52,17 @@ const Write = () => {
     });
   }, [initialContent]);
 
+   // Modified save handler
+   const handleEditorChange = useCallback(() => {
+    // Save full document structure including tables
+    const content = editor.topLevelBlocks;
+    saveToStorage(content);
+    
+    // Optional: Also save HTML version if needed
+    const htmlContent = editor.blocksToHTMLLossy(content);
+    localStorage.setItem('editor-html', htmlContent);
+  }, [editor]);
+
   if (editor === undefined) {
     return 'Loading content...';
   }
@@ -60,10 +71,10 @@ const Write = () => {
     <div className="writeEditor-container">
       
       <BlockNoteView
-        data-changing-font-demo
         onScroll={() => dispatch({ type: 'SET_SCROLL' })}
+        data-changing-font-demo
         editor={editor}
-        onChange={() => saveToStorage(editor.document)}
+        onChange={handleEditorChange}
         theme="light"
       />
     </div>

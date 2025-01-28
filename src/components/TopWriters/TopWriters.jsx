@@ -8,13 +8,12 @@ const TopWriters = ({ action }) => {
   const [usersToDisplay, setUsersToDisplay] = useState([]);
 
   useEffect(() => {
-    console.log('Current state.authors:', state.authors); // Debug log
-    
+
     if (state.authors?.length) {
-      const users = state.authors.slice(0, 5);
+      const sortedUsers = state.authors.sort((a, b) => b.articles.length - a.articles.length);
+      const users = sortedUsers.slice(0, 7);
       console.log('Users being set:', users); // Debug log
       setUsersToDisplay(users);
-      setIsLoading(false);
     }
   }, [state.authors]);
 
@@ -40,7 +39,7 @@ const TopWriters = ({ action }) => {
                 <div className="trending-writers">
                   <img
                     className="profile-info-pic"
-                    src={user.profilePic}
+                    src={user.profilePicture}
                     alt={`Profile picture of ${user.name}`}
                   />
                   <div className="trending-categories writers">

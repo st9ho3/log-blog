@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useLoaderData } from 'react-router';
 import { BlockNoteEditor } from '@blocknote/core';
 import { BsDot } from "react-icons/bs";
+import 'prismjs/themes/prism-tomorrow.css'; // Example dark theme
+
 
 /**
  * Article Component
@@ -21,7 +23,6 @@ const Article = () => {
   // Access loader data containing pre-processed article content
   const { title, filteredContent, image, author } = useLoaderData();
 
-  
   
   useEffect(() => {
     /**
@@ -46,14 +47,26 @@ const Article = () => {
         const customBlockToHTML = async (block) => {
           // Special handling for image blocks
           if (block.type === "image") {
-            return `<div style="display: flex; justify-content: center; align-items: center;">
-              <img 
-                src="${block.props?.url}" 
-                alt="${block.props?.alt || ""}" 
-                style="width: 600px; height: 500px; object-fit: contain;" 
-              />
-            </div>`;
+            return `
+              <figure style="text-align: center; margin: 2rem 0;">
+                <img 
+                  src="${block.props?.url}" 
+                  alt="${block.props?.alt || ""}" 
+                  style="max-width: 100%; height: auto;"
+                />
+                ${block.props?.caption ? `
+                  <figcaption style="
+                    font-size: 0.9rem;
+                    color: #666;
+                    margin-top: 0.5rem;
+                  ">
+                    ${block.props.caption}
+                  </figcaption>
+                ` : ''}
+              </figure>
+            `;
           }
+          
           // Default block rendering using BlockNote's converter
           return await editor.blocksToFullHTML([block]);
         };
@@ -72,21 +85,21 @@ const Article = () => {
   
     processContent();
   }, [filteredContent]); // Re-process when content changes
-console.log(author.img)
+
   return (
     <div className="writeEditor-container">
       {/* Article Header Section */}
       <div className="article-header">
-        <h1 style={{ fontFamily: 'Helvetica', fontSize: '2.2rem', marginBottom: '2rem' }}>{title}</h1>
+        <h1 style={{ fontFamily: 'Helvetica', fontSize: '2.2rem', marginLeft: '.5rem', margin: '1.5rem 0.7rem' }}>{title}</h1>
 
-        <hr style={{border: '', opacity: '.3', marginTop: '4rem'  }} />
+        <hr style={{border: '', opacity: '.3', marginTop: '1rem'  }} />
 
         {/* Author Information Card */}
         <div className="author-details" style={{
           display: 'flex',
           gap: '1rem',
           fontFamily: 'Inter',
-          margin: '.5rem 0 .5rem 0',
+          margin: '1rem ',
         }}>
           <img
             style={{ width: '2.7rem' }}
@@ -113,7 +126,9 @@ console.log(author.img)
         {/* Featured Article Image */}
         <img
           style={{
-            width: '39.5rem',
+            display: 'block',
+            justifySelf: 'center',
+            width: '92%',
             marginTop: '2rem',
             marginBottom: '2rem',
           }}

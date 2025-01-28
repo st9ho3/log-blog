@@ -122,7 +122,9 @@
 
 /* Mobile/ Tablet Breakpoint */
 @media (max-width: 850px) {
-    
+    .title {
+        font-size: 1.5rem;
+    }
     .subtitle {
         font-size: var(--subtitle-font-size-mobile);
     }

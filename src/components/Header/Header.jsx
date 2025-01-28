@@ -37,11 +37,9 @@ const Header = () => {
     setTimeout(() =>  dispatch({type:'SHOW_MODAL', payload: 'tags'}), 100 )
   }
   const publishNclean =  (tags, author ) => {
-    console.log(author)
-     PublishArticle(tags, author)
+     PublishArticle(tags, author, state.authors)
     dispatch({type: 'CLEAN_TAGS'})
   } 
-console.log(state.modal)
   return (
     <div>
       <div className="header">
