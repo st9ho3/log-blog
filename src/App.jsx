@@ -4,7 +4,7 @@ import {
   createRoutesFromElements, 
   Route, 
 } from 'react-router'; // React Router imports for routing
-import { Header, Home, Write, Profile, Article, LoginPage, SignupPage } from './Constants/Components.js'; // Import components
+import { Header, Home, Write, Profile, Article, LoginPage, SignupPage } from './constants/components.js'; // Import components
 import { loader as homeLoader } from './pages/Home/Home.jsx'; // Home page loader function
 import { articleLoader } from './constants/articleLoader.js'; // Article page loader function
 import { loginLoader, actionLogin } from './pages/Auth/LoginPage.jsx';
