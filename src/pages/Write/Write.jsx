@@ -76,6 +76,7 @@ const Write = () => {
         editor={editor}
         onChange={handleEditorChange}
         theme="light"
+      
       />
     </div>
   );

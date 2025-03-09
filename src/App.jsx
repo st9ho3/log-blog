@@ -3,8 +3,6 @@ import {
   RouterProvider, 
   createRoutesFromElements, 
   Route, 
-  redirect,
-  Navigate
 } from 'react-router'; // React Router imports for routing
 import { Header, Home, Write, Profile, Article, LoginPage, SignupPage } from './Constants/Components.js'; // Import components
 import { loader as homeLoader } from './pages/Home/Home.jsx'; // Home page loader function
@@ -12,8 +10,7 @@ import { articleLoader } from './constants/articleLoader.js'; // Article page lo
 import { loginLoader, actionLogin } from './pages/Auth/LoginPage.jsx';
 import './App.css'; // Global styles
 import { requireAuth } from './constants/utils.js';
-import { useContext, useState } from 'react';
-import { context } from './context/Context.jsx';
+
 
 
 /**

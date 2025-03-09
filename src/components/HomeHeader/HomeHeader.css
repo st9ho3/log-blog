@@ -77,7 +77,8 @@
 }
 
 .social-icon.date {
-    font-size: var(--date-font-size-desktop);
+    
+    font-size: .85rem;
     font-family: "helvetica";
 }
 

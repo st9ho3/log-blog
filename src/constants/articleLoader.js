@@ -21,6 +21,7 @@ export const articleLoader = async ({ params }) => {
   const content = await getArticle(articleID);
   const data = content?.content; // Array of content blocks
   const author = content?.author; // Object: Author 
+  const meta = content?.metadata; // Object: Metadata
   
   // Validate data structure
   if (!data || !Array.isArray(data)) {
@@ -72,6 +73,7 @@ export const articleLoader = async ({ params }) => {
     title,         // String: Article title
     filteredContent, // Array: Content without first heading/image
     image,          // String: URL of featured image,
-    author
+    author,
+    meta
   };
 };

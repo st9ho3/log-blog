@@ -21,7 +21,7 @@ const Article = () => {
   const [html, setHtml] = useState('Loading...');
   
   // Access loader data containing pre-processed article content
-  const { title, filteredContent, image, author } = useLoaderData();
+  const { title, filteredContent, image, author, meta } = useLoaderData();
 
   
   useEffect(() => {
@@ -116,7 +116,7 @@ const Article = () => {
             </div>
             {/* Static publication date - consider making dynamic */}
             <div>
-              <p style={{fontSize: ".9rem", marginTop: '.3rem'}}>02/12/2024</p>
+              <p style={{fontSize: ".9rem", marginTop: '.3rem'}}>{meta.date}</p>
             </div>
           </div>
         </div>

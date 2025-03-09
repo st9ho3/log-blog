@@ -37,7 +37,10 @@
 
 .bn-block [data-content-type="heading"][data-level="1"],
 .bn-block [data-content-type="heading"][data-level="2"],
-.bn-block [data-content-type="heading"][data-level="3"],
+.bn-block [data-content-type="heading"][data-level="3"] {
+  font-family: 'Inter', Helvetica !important;
+  margin-bottom: var(--margin-bottom);
+}
 .bn-block [data-content-type="paragraph"] {
   line-height: var(--line-height);
   margin-bottom: var(--margin-bottom);
@@ -162,7 +165,7 @@
     font-family: "Brygada 1918", "Noto Serif Display" !important;
     overflow-wrap: break-word !important;
     min-width: 20rem;
-    /* border: solid thin red; */
+    max-width: fit-content;
   }
 
   /* Writeform layout */
@@ -211,13 +214,13 @@
 
   .bn-block [data-content-type="numberedListItem"] {
     font-size: var(--font-paragraph) !important;
-    line-height: var(--line-height);
+    line-height: .8;
     margin-bottom: var(--margin-bottom);
   }
 
   .bn-default-styles img {
     width: 100% !important;
-    height: 26rem !important;
+    min-height: 30rem !important;
     margin-bottom: var(--margin-bottom);
   }
 
@@ -231,17 +234,19 @@
   .bn-default-styles td,
   .bn-default-styles th {
     border: 1px solid #edecec;
-    padding: 8px;
-    min-width: 120px;
+    padding: 6px;
+    min-width: 80px;
+    margin-bottom: var(--margin-bottom);
   }
 
   /* For image captions */
   .bn-default-styles figcaption {
-    font-size: 0.9rem;
+    font-size: .9rem;
     color: #666;
-    margin-top: 0.5rem;
-    text-align: center;
+    margin-top: .5rem;
+    text-align: start;
   }
+  
 }
 :root {
   /* Add link color variable */
@@ -274,6 +279,13 @@
   /* Adjust margin variable for mobile */
   :root {
     --margin-bottom: 1rem;
+  }
+  .bn-default-styles td,
+  .bn-default-styles th {
+    border: 1px solid #edecec;
+    padding: 6px;
+    max-width: 20px;
+    margin-bottom: var(--margin-bottom);
   }
 }
 
@@ -312,7 +324,7 @@
 @media (min-width:900px) {
   .bn-default-styles,
   .bn-container[data-changing-font-demo] .bn-editor {
-    margin-left: 17rem !important;
-    margin-right: 17rem !important;
+    margin-left: 19rem !important;
+    margin-right: 19rem !important;
   }
 }

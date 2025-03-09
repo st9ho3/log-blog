@@ -50,9 +50,10 @@ function HomeHeader({
   profile,
   tag,
   image,
+  date
 }) {
   const { state, dispatch } = useContext(context);
-
+console.log(state.article)
   return (
     <div
       onClick={() =>
@@ -68,7 +69,7 @@ function HomeHeader({
             saves,
             profile,
             tag,
-            image,
+            image
           },
         })
       }
@@ -93,7 +94,7 @@ function HomeHeader({
           <p className="subtitle">{subtitle}</p>
 
           <div className="social-icons">
-            <p className="social-icon date">08 Δεκ</p>
+            <p className="social-icon date">{date}</p>
             <div className="social-container">
               <FaHandsClapping className="social-icon" />
               <span className="social-number">{claps}</span>

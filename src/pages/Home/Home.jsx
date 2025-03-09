@@ -104,6 +104,7 @@ const Home = () => {
                   saves={article?.saves || 0} // Saves count with fallback
                   tag={article.tags || []} // Tags array with fallback
                   profile={article.author?.img}
+                  date={article.metadata?.date }
                 />
               ))
             ) : (
